@@ -9,7 +9,6 @@
 #### CRIAR AMBIENTE PYTHON LOCAL
 `
 python -m venv env
-
 `
 #### ACESSAR AMBIENTE PYTHON LOCAL
 `
