@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:sherlock/view/call.dart';
-import 'package:sherlock/view/message.dart';
+import 'package:sherlock/view/home_page.dart';
 import 'package:sherlock/view/phishing.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class Message extends StatefulWidget {
+  const Message({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Message> createState() => _MessageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+class _MessageState extends State<Message> {
+  int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text('PASSWORD PAGE'),
+        child: Text('MESSAGE PAGE'),
       ),
       bottomNavigationBar: Container(
         color: Colors.black,
@@ -70,11 +70,11 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.all(16),
             tabs: [
               GButton(
-                active: _selectedIndex == 0,
                 icon: Icons.password_rounded,
                 text: 'Senha',
               ),
               GButton(
+                active: _selectedIndex == 1,
                 icon: Icons.message_rounded,
                 text: 'Texto',
               ),
@@ -94,4 +94,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
