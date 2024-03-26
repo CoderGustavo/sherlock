@@ -7,7 +7,7 @@ class IntroPage3 extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
-      color: Colors.black26,
+      color: Colors.black87,
       child: Center(
         child: Column(
           children: [
@@ -25,6 +25,7 @@ class IntroPage3 extends StatelessWidget {
                   textAlign: TextAlign.center, // Centraliza o texto horizontalmente
                   style: TextStyle(
                     fontWeight: FontWeight.bold, // Define o texto em negrito
+                    color: Colors.white
                   ),
                 ),
               ),
