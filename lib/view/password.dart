@@ -3,24 +3,24 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:sherlock/view/home_page.dart';
 import 'package:sherlock/view/message.dart';
 import 'package:sherlock/view/phishing.dart';
-import 'package:sherlock/view/password.dart';
+import 'package:sherlock/view/call.dart';
 
-class Call extends StatefulWidget {
-  const Call({Key? key}) : super(key: key);
+class Password extends StatefulWidget {
+  const Password({Key? key}) : super(key: key);
 
   @override
-  State<Call> createState() => _CallState();
+  State<Password> createState() => _CallState();
 }
 
-class _CallState extends State<Call> {
-  int _selectedIndex = 3;
+class _CallState extends State<Password> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text('CALL PAGE'),
+        child: Text('PASSWORD PAGE'),
       ),
       bottomNavigationBar: Container(
         color: Colors.black,
@@ -78,16 +78,16 @@ class _CallState extends State<Call> {
             padding: EdgeInsets.all(16),
             tabs: [
               GButton(
+                active: _selectedIndex == 0,
                 icon: Icons.password_rounded,
               ),
               GButton(
                 icon: Icons.message_rounded,
               ),
               GButton(
-                  icon: Icons.security_rounded,
+                  icon: Icons.security_rounded
               ),
               GButton(
-                active: _selectedIndex == 3,
                 icon: Icons.phonelink_ring_rounded,
               ),
               GButton(

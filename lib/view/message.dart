@@ -3,6 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:sherlock/view/call.dart';
 import 'package:sherlock/view/home_page.dart';
 import 'package:sherlock/view/phishing.dart';
+import 'package:sherlock/view/password.dart';
 
 class Message extends StatefulWidget {
   const Message({Key? key}) : super(key: key);
@@ -37,6 +38,13 @@ class _MessageState extends State<Message> {
             onTabChange: (index) {
               setState(() {
                 _selectedIndex = index;
+                if (_selectedIndex == 0) {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Password()),
+                  );
+                } else
                 if (_selectedIndex == 1) {
                   Navigator.pop(context);
                   Navigator.push(
@@ -44,14 +52,14 @@ class _MessageState extends State<Message> {
                     MaterialPageRoute(builder: (context) => Message()),
                   );
                 } else
-                if (_selectedIndex == 2) {
+                if (_selectedIndex == 3) {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Call()),
                   );
                 } else
-                if (_selectedIndex == 3) {
+                if (_selectedIndex == 4) {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
@@ -71,20 +79,19 @@ class _MessageState extends State<Message> {
             tabs: [
               GButton(
                 icon: Icons.password_rounded,
-                text: 'Senha',
               ),
               GButton(
                 active: _selectedIndex == 1,
                 icon: Icons.message_rounded,
-                text: 'Texto',
+              ),
+              GButton(
+                  icon: Icons.security_rounded
               ),
               GButton(
                 icon: Icons.phonelink_ring_rounded,
-                text: 'Telefone',
               ),
               GButton(
                 icon: Icons.link_rounded,
-                text: 'Site',
               ),
             ],
             selectedIndex: _selectedIndex,
