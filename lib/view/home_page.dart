@@ -108,19 +108,18 @@ class _HomePageState extends State<HomePage> {
               GButton(
                 active: _selectedIndex == 0,
                 icon: Icons.password_rounded,
-                text: 'Senha',
               ),
               GButton(
                 icon: Icons.message_rounded,
-                text: 'Texto',
+              ),
+              GButton(
+                  icon: Icons.security_rounded
               ),
               GButton(
                 icon: Icons.phonelink_ring_rounded,
-                text: 'Telefone',
               ),
               GButton(
                 icon: Icons.link_rounded,
-                text: 'Site',
               ),
             ],
             selectedIndex: _selectedIndex,
