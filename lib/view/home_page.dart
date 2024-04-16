@@ -16,47 +16,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 2;
 
-  final _textController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-
-            Expanded(
-                child: Container(
-                  child: Center(child: Text('Verifique a segurança da sua senha'),),
-                )),
-
-            TextField(
-              controller: _textController,
-              decoration: InputDecoration(
-                  hintText: 'Digite uma senha',
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        _textController.clear();
-                      },
-                      icon: const Icon(Icons.clear),
-                  ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: MaterialButton(
-                onPressed: () {},
-                color: Colors.black,
-                child: const Text('Verificar', style: TextStyle(color: Colors.white),),
-              ),
-            )
-          ],
-        ),
+      body: Center(
+        child: Text('INFORMAÇÕES DE CYBERSEGURANÇA'),
       ),
       bottomNavigationBar: Container(
         color: Colors.black,
