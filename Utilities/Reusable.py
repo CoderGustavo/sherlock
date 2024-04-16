@@ -5,6 +5,8 @@ import os
 from fastapi.responses import JSONResponse
 import base64
 from random import randint
+import g4f
+import json
 
 class Reusable():
     # Reusable class
@@ -37,3 +39,10 @@ class Reusable():
             self.throwError(fieldName, {"status_code": 400, "msg": "Erro ao salvar a foto inserida."})
 
         return None
+
+    def useAI(self, model, message):
+        response = g4f.ChatCompletion.create(
+            model= model,
+            messages=message
+        )
+        return json.loads(response.replace("```json", "").replace("```", ""))

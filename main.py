@@ -70,7 +70,7 @@ Neste endpoint é esperado o retorno de um json contendo:
 - sms_score ( 0 a 100, sendo 0 não golpe e 100 golpe ) INT
 - sms_score_reason ( Qual a motivo do score do sms informado ) STRING
 """)
-def check_sms(phone: str, sms: str):
+def check_sms(sms: str, phone: str = 0):
     return Person().check_sms(phone, sms)
 
 # This method will check the telephone number and sms that will be passed

@@ -1,7 +1,4 @@
-from Utilities.Validators import Validators
-from starlette.exceptions import HTTPException
-
-import json
+from Utilities.Reusable import Reusable
 
 import g4f
 
@@ -28,19 +25,36 @@ class Url():
             return {
                 "empresa": "Desconhecida",
                 "valida": False,
-                "motivo": f"Inválido, pois encontramos algum erro ao tentar acessar este site."
+                "motivo": "Inválido, pois encontramos algum erro ao tentar acessar este site."
+            }
+        
+        try:
+            response = None
+            timeout = 0
+            while response == None or timeout < 5:
+                res = Reusable().useAI(g4f.models.gpt_35_long, \
+                    [ \
+                        {"role": "user", "content": url.strip()}, \
+                        {"role": "user", "content": "Considere sites com protocolo http como INVÁLIDOS"}, \
+                        {"role": "user", "content": "Sua reposta deve conter apenas um json e não tente estilizar"}, \
+                        {"role": "user", "content": "Esta url é valida? retorne a resposta em formato json contendo ( empresa, valida e motivo ) (explique EM POUCAS PALAVRAS o porque é inválido ou válido)"}\
+                    ])
+                if "empresa" in res.keys() and "valida" in res.keys() and "motivo" in res.keys(): response = res
+                timeout += 1
+
+            if timeout == 5:
+                return {
+                "empresa": "Desconhecida",
+                "valida": False,
+                "motivo": "Erro ao tentar acessar nossa AI"
             }
 
-        response = g4f.ChatCompletion.create(
-            model=g4f.models.gpt_35_long,
-            provider=g4f.Provider.FreeGpt,
-            messages=[ \
-                {"role": "user", "content": url}, \
-                {"role": "user", "content": "Considere sites com protocolo http como INVÁLIDOS"}, \
-                {"role": "user", "content": "Sua reposta deve conter apenas um json"}, \
-                {"role": "user", "content": "Esta url é valida? retorne a resposta em formato json contendo: empresa, se é valida e motivo (explique EM POUCAS PALAVRAS o porque é inválido ou válido)"}]
-        )
-
-        response = json.loads(response)
+        except Exception as err:
+            print(err)
+            return {
+                "empresa": "Desconhecida",
+                "valida": False,
+                "motivo": "Erro ao tentar acessar nossa AI"
+            }
 
         return response

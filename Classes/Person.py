@@ -1,5 +1,4 @@
-from Utilities.Validators import Validators
-from starlette.exceptions import HTTPException
+from Utilities.Reusable import Reusable
 
 import json
 
@@ -35,20 +34,41 @@ curl https://search5-noneu.truecaller.com/v2/search?q={number}&countryCode=55&ty
         }
 
     def check_sms(self, number, sms):
-        number_check = self.check_number(number)
-        number_score = number_check["number_score"]
-        number_score_reason = number_check["description"]
+        try:
+            number_check = self.check_number(number)
+            number_score = number_check["number_score"]
+            number_score_reason = number_check["description"]
+        except Exception as err:
+            print(err)
+            number_score = 0
+            number_score_reason = "Tivemos algum erro ao tentar validar o número inserido."
 
-        response = g4f.ChatCompletion.create(
-            model=g4f.models.gpt_35_long,
-            provider=g4f.Provider.FreeGpt,
-            messages=[ \
-                {"role": "user", "content": f"número: {number}"}, \
-                {"role": "user", "content": f"sms: {sms}"}, \
-                {"role": "user", "content": "Sua reposta deve conter apenas um json"}, \
-                {"role": "user", "content": "Este sms pode ser um golpe? retorne a resposta em formato json contendo: nivel de chance de 0 a 100 e motivo"}]
-        )
-        response = json.loads(response)
+        try:
+            response = None
+            timeout = 0
+            while response == None and timeout < 5:
+                res = Reusable().useAI(g4f.models.gpt_35_long, \
+                    [ \
+                        {"role": "user", "content": f"número: {number}"}, \
+                        {"role": "user", "content": f"sms: {sms}"}, \
+                        {"role": "user", "content": "Sua reposta deve conter apenas um json"}, \
+                        {"role": "user", "content": "Este sms com esse número pode ser um golpe? retorne a resposta em formato json contendo: nivel de chance de 0 a 100 e motivo"}\
+                    ])
+                if "nivel_de_chance" in res.keys() and "motivo" in res.keys(): response = res
+                timeout += 1
+
+            if timeout == 5:
+                response = {
+                    "nivel_de_chance": 100,
+                    "motivo": "Erro ao tentar acessar nossa AI"
+                }
+
+        except Exception as err:
+            print(err)
+            response = {
+                "nivel_de_chance": 100,
+                "motivo": "Erro ao tentar acessar nossa AI"
+            }
 
         return {
             "number_score": number_score,
