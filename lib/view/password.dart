@@ -19,8 +19,6 @@ class _PasswordState extends State<Password> {
   final _textController = TextEditingController();
   Map<String, dynamic> senhaAnalisada = {};
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +29,13 @@ class _PasswordState extends State<Password> {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             Expanded(
-                child: Container(
-                  child: Center(child: Text('Verifique a segurança da sua senha'),),
-                )),
-
+              child: Container(
+                child: Center(
+                  child: Text('Verifique a segurança da sua senha'),
+                ),
+              ),
+            ),
             TextField(
               controller: _textController,
               decoration: InputDecoration(
@@ -56,10 +55,31 @@ class _PasswordState extends State<Password> {
                 onPressed: () async {
                   var inputPassword = _textController.text;
                   senhaAnalisada = await passwordAnalysis(inputPassword);
+                  setState(() {}); // Atualiza o estado para reconstruir a UI com os novos valores
                 },
                 color: Colors.black,
-                child: const Text('Verificar', style: TextStyle(color: Colors.white),),
+                child: const Text(
+                  'Verificar',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
+            ),
+            // Campos de texto para exibir o resultado da análise da senha
+            TextField(
+              enabled: false,
+              decoration: InputDecoration(
+                labelText: 'Nível',
+                border: OutlineInputBorder(),
+              ),
+              controller: TextEditingController(text: senhaAnalisada['level'].toString()),
+            ),
+            TextField(
+              enabled: false,
+              decoration: InputDecoration(
+                labelText: 'Descrição',
+                border: OutlineInputBorder(),
+              ),
+              controller: TextEditingController(text: senhaAnalisada['description']),
             ),
           ],
         ),
@@ -86,28 +106,25 @@ class _PasswordState extends State<Password> {
                     context,
                     MaterialPageRoute(builder: (context) => Password()),
                   );
-                } else
-                if (_selectedIndex == 1) {
+                } else if (_selectedIndex == 1) {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Message()),
                   );
-                } else
-                if (_selectedIndex == 3) {
+                } else if (_selectedIndex == 3) {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Call()),
                   );
-                } else
-                if (_selectedIndex == 4) {
+                } else if (_selectedIndex == 4) {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Phishing()),
                   );
-                } else{
+                } else {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
@@ -126,9 +143,7 @@ class _PasswordState extends State<Password> {
               GButton(
                 icon: Icons.message_rounded,
               ),
-              GButton(
-                  icon: Icons.security_rounded
-              ),
+              GButton(icon: Icons.security_rounded),
               GButton(
                 icon: Icons.phonelink_ring_rounded,
               ),
