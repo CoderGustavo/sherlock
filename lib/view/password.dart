@@ -5,6 +5,7 @@ import 'package:sherlock/view/message.dart';
 import 'package:sherlock/view/phishing.dart';
 import 'package:sherlock/view/call.dart';
 import 'package:sherlock/controller/apiAccess.dart';
+import 'dart:convert';
 
 class Password extends StatefulWidget {
   const Password({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _PasswordState extends State<Password> {
   int _selectedIndex = 0;
 
   final _textController = TextEditingController();
-  Map<String, dynamic> senhaAnalisada = {};
+  Map<String, dynamic> senhaAnalisada = {'level': '...', 'description': '...'};
 
   @override
   Widget build(BuildContext context) {
