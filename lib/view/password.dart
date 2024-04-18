@@ -5,7 +5,6 @@ import 'package:sherlock/view/message.dart';
 import 'package:sherlock/view/phishing.dart';
 import 'package:sherlock/view/call.dart';
 import 'package:sherlock/controller/apiAccess.dart';
-import 'dart:convert';
 
 class Password extends StatefulWidget {
   const Password({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class _PasswordState extends State<Password> {
   int _selectedIndex = 0;
 
   final _textController = TextEditingController();
-  Map<String, dynamic> senhaAnalisada = {'level': '...', 'description': '...'};
+  Map<String, dynamic> senhaAnalisada = {};
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,10 @@ class _PasswordState extends State<Password> {
             Expanded(
               child: Container(
                 child: Center(
-                  child: Text('Verifique a segurança da sua senha'),
+                  child: Text(
+                    'Verifique a segurança da sua senha',
+                    style: TextStyle(fontFamily: 'Roboto'),
+                  ),
                 ),
               ),
             ),
@@ -72,6 +74,7 @@ class _PasswordState extends State<Password> {
                 labelText: 'Nível',
                 border: OutlineInputBorder(),
               ),
+              style: TextStyle(fontFamily: 'Roboto'),
               controller: TextEditingController(text: senhaAnalisada['level'].toString()),
             ),
             TextField(
@@ -80,6 +83,7 @@ class _PasswordState extends State<Password> {
                 labelText: 'Descrição',
                 border: OutlineInputBorder(),
               ),
+              style: TextStyle(fontFamily: 'Roboto'),
               controller: TextEditingController(text: senhaAnalisada['description']),
             ),
           ],
@@ -159,3 +163,4 @@ class _PasswordState extends State<Password> {
     );
   }
 }
+
