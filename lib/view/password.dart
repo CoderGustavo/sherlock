@@ -7,6 +7,18 @@ import 'package:sherlock/view/call.dart';
 import 'package:sherlock/controller/apiAccess.dart';
 import 'dart:convert';
 
+Widget _buildIcon(Map senhaAnalisada){
+  if (senhaAnalisada['level'] == '...') {
+    return Icon(Icons.lock_clock); // Ícone de carregamento
+  } else if (senhaAnalisada['level'] == '0' || senhaAnalisada['level'] == '1' || senhaAnalisada['level'] == '2' || senhaAnalisada['level'] == '3' || senhaAnalisada['level'] == '4' || senhaAnalisada['level'] == '5' || senhaAnalisada['level'] == '6') {
+    return Icon(Icons.lightbulb, color: Colors.green); // Ícone para cima
+  } else if (senhaAnalisada['level'] == '7' || senhaAnalisada['level'] == '8'|| senhaAnalisada['level'] == '9' || senhaAnalisada['level'] == '10'){
+    return Icon(Icons.error_outlined, color: Colors.red); // Ícone para baixo
+  } else {
+    return Icon(Icons.lock_clock); // Ícone de carregamento
+  }
+}
+
 class Password extends StatefulWidget {
   const Password({Key? key}) : super(key: key);
 
@@ -81,6 +93,7 @@ class _PasswordState extends State<Password> {
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black), // Cor da borda
                     ),
+                    suffixIcon: _buildIcon(senhaAnalisada),
                   ),
                   style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
                   controller: TextEditingController(text: senhaAnalisada['level'].toString()),
