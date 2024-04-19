@@ -45,7 +45,11 @@ class _PasswordState extends State<Password> {
             Expanded(
               child: Container(
                 child: Center(
-                  child: Text('Verifique a segurança da sua senha'),
+                  child: Text('VERIFIQUE A SEGURANÇA DA SENHA',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),),
                 ),
               ),
             ),
