@@ -5,6 +5,7 @@ import 'package:sherlock/view/message.dart';
 import 'package:sherlock/view/phishing.dart';
 import 'package:sherlock/view/call.dart';
 import 'package:sherlock/controller/apiAccess.dart';
+import 'dart:convert';
 
 class Password extends StatefulWidget {
   const Password({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _PasswordState extends State<Password> {
   int _selectedIndex = 0;
 
   final _textController = TextEditingController();
-  Map<String, dynamic> senhaAnalisada = {};
+  Map<String, dynamic> senhaAnalisada = {'level': '...', 'description': '...'};
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +33,7 @@ class _PasswordState extends State<Password> {
             Expanded(
               child: Container(
                 child: Center(
-                  child: Text(
-                    'Verifique a segurança da sua senha',
-                    style: TextStyle(fontFamily: 'Roboto'),
-                  ),
+                  child: Text('Verifique a segurança da sua senha'),
                 ),
               ),
             ),
@@ -58,6 +56,7 @@ class _PasswordState extends State<Password> {
                 onPressed: () async {
                   var inputPassword = _textController.text;
                   senhaAnalisada = await passwordAnalysis(inputPassword);
+                  print(senhaAnalisada['description']);
                   setState(() {}); // Atualiza o estado para reconstruir a UI com os novos valores
                 },
                 color: Colors.black,
@@ -68,24 +67,51 @@ class _PasswordState extends State<Password> {
               ),
             ),
             // Campos de texto para exibir o resultado da análise da senha
-            TextField(
-              enabled: false,
-              decoration: InputDecoration(
-                labelText: 'Nível',
-                border: OutlineInputBorder(),
-              ),
-              style: TextStyle(fontFamily: 'Roboto'),
-              controller: TextEditingController(text: senhaAnalisada['level'].toString()),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+
+                TextField(
+                  enabled: false,
+                  minLines: 1,
+                  maxLines: null, // Isso permite que o campo tenha várias linhas conforme necessário
+                  decoration: InputDecoration(
+                    labelText: 'Nível',
+                    labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black), // Cor da borda
+                    ),
+                  ),
+                  style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
+                  controller: TextEditingController(text: senhaAnalisada['level'].toString()),
+                  // Use o onChanged para forçar a atualização do layout quando o texto for alterado
+                  onChanged: (_) => setState(() {}),
+                ),
+
+                SizedBox(height: 20), // Espaço entre os TextField
+
+                TextField(
+                  enabled: false,
+                  minLines: 1,
+                  maxLines: null, // Isso permite que o campo tenha várias linhas conforme necessário
+                  decoration: InputDecoration(
+                    labelText: 'Descrição',
+                    labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black), // Cor da borda
+                    ),
+                  ),
+                  style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
+                  controller: TextEditingController(text: senhaAnalisada['description']),
+                  // Use o onChanged para forçar a atualização do layout quando o texto for alterado
+                  onChanged: (_) => setState(() {}),
+                ),
+
+                SizedBox(height: 10), // Espaço entre os TextField
+              ],
             ),
-            TextField(
-              enabled: false,
-              decoration: InputDecoration(
-                labelText: 'Descrição',
-                border: OutlineInputBorder(),
-              ),
-              style: TextStyle(fontFamily: 'Roboto'),
-              controller: TextEditingController(text: senhaAnalisada['description']),
-            ),
+
+
           ],
         ),
       ),
@@ -163,4 +189,3 @@ class _PasswordState extends State<Password> {
     );
   }
 }
-
