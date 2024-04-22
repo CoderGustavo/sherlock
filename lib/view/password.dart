@@ -10,12 +10,10 @@ import 'dart:convert';
 Widget _buildIcon(Map senhaAnalisada){
   if (senhaAnalisada['level'] == '...') {
     return Icon(Icons.lock_clock); // Ícone de carregamento
-  } else if (senhaAnalisada['level'] == '0' || senhaAnalisada['level'] == '1' || senhaAnalisada['level'] == '2' || senhaAnalisada['level'] == '3' || senhaAnalisada['level'] == '4' || senhaAnalisada['level'] == '5' || senhaAnalisada['level'] == '6') {
-    return Icon(Icons.lightbulb, color: Colors.green); // Ícone para cima
-  } else if (senhaAnalisada['level'] == '7' || senhaAnalisada['level'] == '8'|| senhaAnalisada['level'] == '9' || senhaAnalisada['level'] == '10'){
-    return Icon(Icons.error_outlined, color: Colors.red); // Ícone para baixo
+  } else if (senhaAnalisada['level'] == 0 || senhaAnalisada['level'] == 1 || senhaAnalisada['level'] == 2 || senhaAnalisada['level'] == 3 || senhaAnalisada['level'] == 4 || senhaAnalisada['level'] == 5 || senhaAnalisada['level'] == 6) {
+    return Icon(Icons.error_outlined, color: Colors.red); // Ícone para cima
   } else {
-    return Icon(Icons.lock_clock); // Ícone de carregamento
+    return Icon(Icons.tag_faces_outlined, color: Colors.green); // Ícone de carregamento
   }
 }
 
@@ -35,17 +33,25 @@ class _PasswordState extends State<Password> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                child: Image.asset(
+                  '../assets/logo.png',
+                ),
+              ),
+            ),
             Expanded(
               child: Container(
                 child: Center(
-                  child: Text('VERIFIQUE A SEGURANÇA DA SENHA',
+                  child:
+                  Text('VERIFIQUE A SEGURANÇA DA SENHA',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -137,7 +143,7 @@ class _PasswordState extends State<Password> {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 15.0,
-            vertical: 20.0,
+            vertical: 10.0,
           ),
           child: GNav(
             backgroundColor: Colors.black,
