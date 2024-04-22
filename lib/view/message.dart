@@ -38,41 +38,17 @@ class _MessageState extends State<Message> {
               setState(() {
                 _selectedIndex = index;
                 if (_selectedIndex == 0) {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Password()),
-                  );
-                } else
-                if (_selectedIndex == 1) {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Message()),
-                  );
-                } else
-                if (_selectedIndex == 3) {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Call()),
-                  );
-                } else
-                if (_selectedIndex == 4) {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Phishing()),
-                  );
-                } else{
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Password()), (route) => false);
+                } else if (_selectedIndex == 1) {
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Message()), (route) => false);
+                } else if (_selectedIndex == 3) {
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Call()), (route) => false);
+                } else if (_selectedIndex == 4) {
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Phishing()), (route) => false);
+                } else {
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
                 }
               });
-              print(index);
             },
             padding: EdgeInsets.all(16),
             tabs: [
