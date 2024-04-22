@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Center(
         child: Text('INFORMAÇÕES DE CYBERSEGURANÇA'),
       ),
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 15.0,
-            vertical: 20.0,
+            vertical: 10.0,
           ),
           child: GNav(
             backgroundColor: Colors.black,

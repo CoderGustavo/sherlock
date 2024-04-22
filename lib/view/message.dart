@@ -18,7 +18,6 @@ class _MessageState extends State<Message> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Center(
         child: Text('MESSAGE PAGE'),
       ),
@@ -27,7 +26,7 @@ class _MessageState extends State<Message> {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 15.0,
-            vertical: 20.0,
+            vertical: 10.0,
           ),
           child: GNav(
             backgroundColor: Colors.black,
