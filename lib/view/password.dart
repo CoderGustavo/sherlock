@@ -9,11 +9,11 @@ import 'dart:convert';
 
 Widget _buildIcon(Map senhaAnalisada){
   if (senhaAnalisada['level'] == '...') {
-    return Icon(Icons.lock_clock); // Ícone de carregamento
+    return Icon(Icons.lock_clock);
   } else if (senhaAnalisada['level'] == 0 || senhaAnalisada['level'] == 1 || senhaAnalisada['level'] == 2 || senhaAnalisada['level'] == 3 || senhaAnalisada['level'] == 4 || senhaAnalisada['level'] == 5 || senhaAnalisada['level'] == 6) {
-    return Icon(Icons.error_outlined, color: Colors.red); // Ícone para cima
+    return Icon(Icons.error_outlined, color: Colors.red);
   } else {
-    return Icon(Icons.tag_faces_outlined, color: Colors.green); // Ícone de carregamento
+    return Icon(Icons.tag_faces_outlined, color: Colors.green);
   }
 }
 
@@ -78,8 +78,7 @@ class _PasswordState extends State<Password> {
                 onPressed: () async {
                   var inputPassword = _textController.text;
                   senhaAnalisada = await passwordAnalysis(inputPassword);
-                  print(senhaAnalisada['description']);
-                  setState(() {}); // Atualiza o estado para reconstruir a UI com os novos valores
+                  setState(() {});
                 },
                 color: Colors.black,
                 child: const Text(
@@ -88,7 +87,6 @@ class _PasswordState extends State<Password> {
                 ),
               ),
             ),
-            // Campos de texto para exibir o resultado da análise da senha
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -96,7 +94,7 @@ class _PasswordState extends State<Password> {
                 TextField(
                   enabled: false,
                   minLines: 1,
-                  maxLines: null, // Isso permite que o campo tenha várias linhas conforme necessário
+                  maxLines: null,
                   decoration: InputDecoration(
                     labelText: 'Nível',
                     labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
