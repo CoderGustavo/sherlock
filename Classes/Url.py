@@ -27,7 +27,6 @@ class Url():
                 "valida": False,
                 "motivo": "Inválido, pois encontramos algum erro ao tentar acessar este site."
             }
-        
         try:
             response = None
             timeout = 0
@@ -42,6 +41,7 @@ class Url():
                 if "empresa" in res.keys() and "valida" in res.keys() and "motivo" in res.keys(): response = res
                 timeout += 1
 
+            if response: return response
             if timeout == 5:
                 return {
                 "empresa": "Desconhecida",
