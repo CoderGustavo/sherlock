@@ -45,12 +45,12 @@ class Validators():
         digit_error = re.search(r"\d", password) is None
         uppercase_error = re.search(r"[A-Z]", password) is None
         lowercase_error = re.search(r"[a-z]", password) is None
-        symbol_error = re.search(r"[ !#$?%&'()*+,-./[\\\]^_`{|}~"+r'"]', password) is None
+        symbol_error = re.search(r"[ @!#$?%&'()*+,-./[\\\]^_`{|}~"+r'"]', password) is None
 
         password_strength = 0
         if length_error: return {'res': False, 'error': {'msg': "Esta senha possui menos de 8 caracteres", 'status_code': 400, 'password_strength': password_strength}}
         password_strength += 2
-        if digit_error: return {'res': False, 'error': {'msg': "Esta senha não possui um digito", 'status_code': 400, 'password_strength': password_strength}}
+        if digit_error: return {'res': False, 'error': {'msg': "Esta senha não possui um digito numérico", 'status_code': 400, 'password_strength': password_strength}}
         password_strength += 2
         if uppercase_error: return {'res': False, 'error': {'msg': "Esta senha não possui uma letra maiúscula", 'status_code': 400, 'password_strength': password_strength}}
         password_strength += 2

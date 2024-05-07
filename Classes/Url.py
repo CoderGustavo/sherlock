@@ -12,6 +12,7 @@ class Url():
         errors = []
         r = None
         try:
+            url = url if url.startswith('http') else ('http://' + url)
             r = requests.get(url)
             r.raise_for_status()
         except BaseException as error:
@@ -30,15 +31,21 @@ class Url():
         try:
             response = None
             timeout = 0
-            while response == None or timeout < 5:
+            while response == None and timeout < 5:
+                print(url.strip())
                 res = Reusable().useAI(g4f.models.gpt_35_long, \
                     [ \
                         {"role": "user", "content": url.strip()}, \
-                        {"role": "user", "content": "Considere sites com protocolo http como INVÁLIDOS"}, \
                         {"role": "user", "content": "Sua reposta deve conter apenas um json e não tente estilizar"}, \
-                        {"role": "user", "content": "Esta url é valida? retorne a resposta em formato json contendo ( empresa, valida e motivo ) (explique EM POUCAS PALAVRAS o porque é inválido ou válido)"}\
+                        {"role": "user", "content": "Formato de retorno: JSON"}, \
+                        {"role": "user", "content": "Campos de retorno: empresa, valida e motivo"}, \
+                        {"role": "user", "content": "Esta url é valida? Explique EM POUCAS PALAVRAS"}, \
+                        {"role": "user", "content": "Campo motivo deve conter toda a descrição, deve ser simples e confia!"}, \
+                        {"role": "user", "content": "Na descrição traga se o site parece confiavel e do que se trata e se pode ser prejudicial ao acessar."}\
                     ])
+                print(res.keys())
                 if "empresa" in res.keys() and "valida" in res.keys() and "motivo" in res.keys(): response = res
+                print(res)
                 timeout += 1
 
             if response: return response

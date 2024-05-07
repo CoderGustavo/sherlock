@@ -12,5 +12,6 @@ class Password():
                 "description": res['error']['msg']
             }
         return {
-            "level": 10
+            "level": 10,
+            "description": "Senha forte!"
         }
