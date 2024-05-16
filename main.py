@@ -7,6 +7,10 @@ from Classes.Password import Password
 from Classes.Person import Person
 from Classes.Url import Url
 
+from Classes.ML.Phishing import Phishing
+
+phishing_classifier = Phishing().init_model()
+
 app = FastAPI(
     docs_url="/api/documentation",
     redoc_url="/api/documentation/remastered",
@@ -84,4 +88,6 @@ Neste endpoint é esperado o retorno de um json contendo:
 - motivo ( qual o motivo de ser válida ou ser inválida ) STRING
 """)
 def check_url(url: str):
-    return Url().check_phishing(url)
+    UrlClass = Url()
+    UrlClass.set_classifier(phishing_classifier)
+    return UrlClass.check_phishing(url)
