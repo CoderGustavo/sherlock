@@ -104,7 +104,7 @@ class _PhishingState extends State<Phishing> {
                     suffixIcon: _buildIcon(urlAnalisada),
                   ),
                   style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
-                  controller: TextEditingController(text: urlAnalisada['valida'] == true ? "Sim" : urlAnalisada['valida'] == "..." ? "..." : "Não"),
+                  controller: TextEditingController(text: urlAnalisada['valida'] == true ? "Link confiável" : urlAnalisada['valida'] == "..." ? "..." : "CUIDADO! Link não confiável"),
                   // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                   onChanged: (_) => setState(() {}),
                 ),
@@ -116,7 +116,7 @@ class _PhishingState extends State<Phishing> {
                   minLines: 1,
                   maxLines: null, // Isso permite que o campo tenha várias linhas conforme necessário
                   decoration: InputDecoration(
-                    labelText: 'Motivo',
+                    labelText: 'Avaliação',
                     labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black), // Cor da borda
