@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-String apiDomain = 'http://10.0.3.34:8000/';
+String apiDomain = 'http://localhost:8000/';
 
 Future <Map<String, dynamic>> passwordAnalysis (String password) async {
   String apiUrl = apiDomain + 'check_password?password=' + Uri.encodeComponent('$password');
