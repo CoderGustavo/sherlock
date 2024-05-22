@@ -28,107 +28,109 @@ class _PhishingState extends State<Phishing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                child: Image.asset(
-                  '../assets/logo.png',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                  child: Image.asset(
+                    '../assets/logo.png',
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Container(
-                child: Center(
-                  child:
-                  Text('VERIFIQUE UM LINK',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),),
+              SizedBox(height: 32),
+              Container(
+                  child: Center(
+                    child:
+                    Text('VERIFIQUE UM LINK',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),),
+                  ),
+                ),
+
+              TextField(
+                controller: _textController,
+                decoration: InputDecoration(
+                  hintText: 'Insira um link',
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      _textController.clear();
+                    },
+                    icon: const Icon(Icons.clear),
+                  ),
                 ),
               ),
-            ),
-            TextField(
-              controller: _textController,
-              decoration: InputDecoration(
-                hintText: 'Insira um link',
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    _textController.clear();
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: MaterialButton(
+                  onPressed: () async {
+                    var inputUrl = _textController.text;
+                    urlAnalisada = await urlAnalysis(inputUrl);
+                    setState(() {});
                   },
-                  icon: const Icon(Icons.clear),
+                  color: Colors.black,
+                  child: const Text(
+                    'Verificar',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: MaterialButton(
-                onPressed: () async {
-                  var inputUrl = _textController.text;
-                  urlAnalisada = await urlAnalysis(inputUrl);
-                  setState(() {});
-                },
-                color: Colors.black,
-                child: const Text(
-                  'Verificar',
-                  style: TextStyle(color: Colors.white),
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+        
+                  TextField(
+                    enabled: false,
+                    minLines: 1,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      labelText: 'Link confiável?',
+                      labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black), // Cor da borda
+                      ),
+                      suffixIcon: _buildIcon(urlAnalisada),
+                    ),
+                    style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
+                    controller: TextEditingController(text: urlAnalisada['valida'] == true ? "Link confiável" : urlAnalisada['valida'] == "..." ? "..." : "CUIDADO! Link não confiável"),
+                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
+                    onChanged: (_) => setState(() {}),
+                  ),
+        
+                  SizedBox(height: 20), // Espaço entre os TextField
+        
+                  TextField(
+                    enabled: false,
+                    minLines: 1,
+                    maxLines: null, // Isso permite que o campo tenha várias linhas conforme necessário
+                    decoration: InputDecoration(
+                      labelText: 'Avaliação',
+                      labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black), // Cor da borda
+                      ),
+                    ),
+                    style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
+                    controller: TextEditingController(text: urlAnalisada['motivo']),
+                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
+                    onChanged: (_) => setState(() {}),
+                  ),
+        
+                  SizedBox(height: 10), // Espaço entre os TextField
+                ],
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-
-                TextField(
-                  enabled: false,
-                  minLines: 1,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    labelText: 'Link confiável?',
-                    labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black), // Cor da borda
-                    ),
-                    suffixIcon: _buildIcon(urlAnalisada),
-                  ),
-                  style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
-                  controller: TextEditingController(text: urlAnalisada['valida'] == true ? "Link confiável" : urlAnalisada['valida'] == "..." ? "..." : "CUIDADO! Link não confiável"),
-                  // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                  onChanged: (_) => setState(() {}),
-                ),
-
-                SizedBox(height: 20), // Espaço entre os TextField
-
-                TextField(
-                  enabled: false,
-                  minLines: 1,
-                  maxLines: null, // Isso permite que o campo tenha várias linhas conforme necessário
-                  decoration: InputDecoration(
-                    labelText: 'Avaliação',
-                    labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black), // Cor da borda
-                    ),
-                  ),
-                  style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
-                  controller: TextEditingController(text: urlAnalisada['motivo']),
-                  // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                  onChanged: (_) => setState(() {}),
-                ),
-
-                SizedBox(height: 10), // Espaço entre os TextField
-              ],
-            ),
-
-
-          ],
+        
+        
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(

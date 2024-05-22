@@ -28,107 +28,108 @@ class _PasswordState extends State<Password> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                child: Image.asset(
-                  '../assets/logo.png',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                  child: Image.asset(
+                    '../assets/logo.png',
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Container(
-                child: Center(
-                  child:
-                  Text('VERIFIQUE A SEGURANÇA DA SENHA',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),),
+              SizedBox(height: 32),
+              Container(
+                  child: Center(
+                    child:
+                    Text('VERIFIQUE A SEGURANÇA DA SENHA',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),),
+                  ),
+                ),
+              TextField(
+                controller: _textController,
+                decoration: InputDecoration(
+                  hintText: 'Digite uma senha',
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      _textController.clear();
+                    },
+                    icon: const Icon(Icons.clear),
+                  ),
                 ),
               ),
-            ),
-            TextField(
-              controller: _textController,
-              decoration: InputDecoration(
-                hintText: 'Digite uma senha',
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    _textController.clear();
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: MaterialButton(
+                  onPressed: () async {
+                    var inputPassword = _textController.text;
+                    senhaAnalisada = await passwordAnalysis(inputPassword);
+                    setState(() {});
                   },
-                  icon: const Icon(Icons.clear),
+                  color: Colors.black,
+                  child: const Text(
+                    'Verificar',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: MaterialButton(
-                onPressed: () async {
-                  var inputPassword = _textController.text;
-                  senhaAnalisada = await passwordAnalysis(inputPassword);
-                  setState(() {});
-                },
-                color: Colors.black,
-                child: const Text(
-                  'Verificar',
-                  style: TextStyle(color: Colors.white),
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+
+                  TextField(
+                    enabled: false,
+                    minLines: 1,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      labelText: 'Nível',
+                      labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black), // Cor da borda
+                      ),
+                      suffixIcon: _buildIcon(senhaAnalisada),
+                    ),
+                    style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
+                    controller: TextEditingController(text: senhaAnalisada['level'].toString()),
+                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
+                    onChanged: (_) => setState(() {}),
+                  ),
+
+                  SizedBox(height: 20), // Espaço entre os TextField
+
+                  TextField(
+                    enabled: false,
+                    minLines: 1,
+                    maxLines: null, // Isso permite que o campo tenha várias linhas conforme necessário
+                    decoration: InputDecoration(
+                      labelText: 'Descrição',
+                      labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black), // Cor da borda
+                      ),
+                    ),
+                    style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
+                    controller: TextEditingController(text: senhaAnalisada['description']),
+                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
+                    onChanged: (_) => setState(() {}),
+                  ),
+
+                  SizedBox(height: 10), // Espaço entre os TextField
+                ],
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-
-                TextField(
-                  enabled: false,
-                  minLines: 1,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    labelText: 'Nível',
-                    labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black), // Cor da borda
-                    ),
-                    suffixIcon: _buildIcon(senhaAnalisada),
-                  ),
-                  style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
-                  controller: TextEditingController(text: senhaAnalisada['level'].toString()),
-                  // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                  onChanged: (_) => setState(() {}),
-                ),
-
-                SizedBox(height: 20), // Espaço entre os TextField
-
-                TextField(
-                  enabled: false,
-                  minLines: 1,
-                  maxLines: null, // Isso permite que o campo tenha várias linhas conforme necessário
-                  decoration: InputDecoration(
-                    labelText: 'Descrição',
-                    labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black), // Cor da borda
-                    ),
-                  ),
-                  style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
-                  controller: TextEditingController(text: senhaAnalisada['description']),
-                  // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                  onChanged: (_) => setState(() {}),
-                ),
-
-                SizedBox(height: 10), // Espaço entre os TextField
-              ],
-            ),
 
 
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
