@@ -56,7 +56,6 @@ class Person():
             while response == None and timeout < 5:
                 res = Reusable().useAI(g4f.models.gpt_35_long, \
                     [ \
-                        {"role": "user", "content": f"número: {number}"}, \
                         {"role": "user", "content": f"sms: {sms}"}, \
                         {"role": "user", "content": "Sua reposta deve conter apenas um json"}, \
                         {"role": "user", "content": "Este sms com esse número pode ser um golpe? retorne a resposta em formato json contendo: nivel de chance de 0 a 100 e motivo"}\
