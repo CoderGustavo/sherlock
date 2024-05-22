@@ -7,7 +7,7 @@ class IntroPage1 extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
-      color: Colors.black87,
+      color: Colors.black,
       child: Center(
         child: Column(
           children: [
