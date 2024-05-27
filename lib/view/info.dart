@@ -6,16 +6,34 @@ class Info extends StatefulWidget {
   const Info({Key? key}) : super(key: key);
 
   @override
-  State<Info> createState() => _HomePageState();
+  State<Info> createState() => _InfoState();
 }
 
-class _HomePageState extends State<Info> {
+class _InfoState extends State<Info> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('INFORMAÇÕES DE CYBERSEGURANÇA'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                    child: Image.asset('../assets/logo.png',),
+                  ),
+                ),
+                SizedBox(height: 32),
+                Container(
+                  child:
+                )
+              ]
+          ),
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
@@ -41,4 +59,3 @@ class _HomePageState extends State<Info> {
     );
   }
 }
-

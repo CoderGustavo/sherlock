@@ -126,8 +126,6 @@ class _CallState extends State<Call> {
                   SizedBox(height: 10), // Espaço entre os TextField
                 ],
               ),
-
-
             ],
           ),
         ),

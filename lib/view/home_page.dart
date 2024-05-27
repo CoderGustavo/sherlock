@@ -255,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(0),
                                 child: Center(
-                                  child: Text('Informações de segurança online',
+                                  child: Text('Dicas e informações de Cibersegurança',
                                     style: TextStyle(fontSize: 20, color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),
