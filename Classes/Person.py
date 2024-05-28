@@ -8,31 +8,30 @@ import shlex
 import subprocess
 from math import ceil
 
-from truecallerpy import search_phonenumber
-import asyncio
+from Middlewares.logger import logger
 
 class Person():
     def __init__(self):
         pass
 
     def check_number(self, number):
+        print(number)
         try:
             cmd = f'''
             curl https://search5.truecaller.com/v2/search?q={number}&countryCode=55&type=4&placement=SEARCHRESULTS,HISTORY,DETAILS&encoding=json
             -H "Accept: application/json"
-            -H "Authorization: Bearer a1i0L--me6B8n-0FlPG4eq3qBn-4qMbdDODurTVPY3YOky3qK08c7qGG-7FlzCJO"
+            -H "Authorization: Bearer a1i0U--n5MXr9VPkdIzKqC-fMJkEmGWrbnvL-sXc7tj-kG4OLXOKlEGvM7HY-c8r"
             '''
             args = shlex.split(cmd)
             process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
             response = json.loads(stdout)
-
             score = 0
             desc = "Nenhuma descrição, número parece legitimo."
             if "score" in response["data"][0].keys(): score = 100-ceil(float(response["data"][0]["score"]*100))
             if "name" in response["data"][0].keys(): desc = response["data"][0]["name"]
-        except Exception as er:
-            print(er)
+        except Exception as err:
+            logger.info(err)
             score = 100
             desc = "Tivemos um problema ao verificar, tente novamente mais tarde!"
         return {
@@ -46,7 +45,7 @@ class Person():
             number_score = number_check["number_score"]
             number_score_reason = number_check["description"]
         except Exception as err:
-            print(err)
+            logger.info(err)
             number_score = 0
             number_score_reason = "Tivemos algum erro ao tentar validar o número inserido."
 

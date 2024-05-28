@@ -1,12 +1,12 @@
 from starlette.exceptions import HTTPException
-from Utilities.Validators import Validators
-from fastapi import status
 import os
 from fastapi.responses import JSONResponse
 import base64
 from random import randint
 import g4f
 import json
+
+from Middlewares.logger import logger
 
 class Reusable():
     # Reusable class
@@ -45,4 +45,5 @@ class Reusable():
             model= model,
             messages=message
         )
+        logger.info(response)
         return json.loads(response.replace("```json", "").replace("```", ""))

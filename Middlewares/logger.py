@@ -2,7 +2,7 @@ import logging
 import sys
 from logtail import LogtailHandler
 
-token = "9a35ZKTnUbiyFUitSJ2iYgWy"
+token = "PXh3Hx2skUUtTJeQ6ayZZwWY"
 
 logger = logging.getLogger()
 
@@ -17,6 +17,6 @@ better_stack_handler = LogtailHandler(source_token=token)
 stream_handler.setFormatter(formatter)
 file_handler.setFormatter(formatter)
 
-logger.handlers = [file_handler, better_stack_handler]
+logger.handlers = [stream_handler, file_handler, better_stack_handler]
 
 logger.setLevel(logging.INFO)

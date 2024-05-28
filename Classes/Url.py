@@ -2,7 +2,9 @@ from Utilities.Reusable import Reusable
 
 import g4f
 
-import requests
+from Middlewares.logger import logger
+
+from typing import Dict
 
 class Url():
     def __init__(self):
@@ -27,8 +29,9 @@ class Url():
                             {"role": "user", "content": "Na descrição traga se o site parece confiavel e do que se trata e se pode ser prejudicial ao acessar."}\
                         ])
                 except Exception as err:
-                    print(err)
-                if "empresa" in res.keys() and "valida" in res.keys() and "motivo" in res.keys(): response = res
+                    logger.info(err)
+                    
+                if isinstance(res, Dict) and "empresa" in res.keys() and "valida" in res.keys() and "motivo" in res.keys(): response = res
                 timeout += 1
 
             if response: return response
@@ -40,7 +43,7 @@ class Url():
             }
 
         except Exception as err:
-            print(err)
+            logger.info(err)
             return {
                 "empresa": "Desconhecida",
                 "valida": False,
