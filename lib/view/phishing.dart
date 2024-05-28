@@ -43,7 +43,7 @@ class _PhishingState extends State<Phishing> {
                   ),
                 ),
               ),
-              SizedBox(height: 32),
+              SizedBox(height: 24),
               Container(
                   child: Center(
                     child:

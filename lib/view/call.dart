@@ -43,7 +43,7 @@ class _CallState extends State<Call> {
                   ),
                 ),
               ),
-              SizedBox(height: 32),
+              SizedBox(height: 24),
               Container(
                   child: Center(
                     child:

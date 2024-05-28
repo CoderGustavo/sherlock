@@ -42,7 +42,7 @@ class _MessageState extends State<Message> {
                   ),
                 ),
               ),
-              SizedBox(height: 32),
+              SizedBox(height: 24),
               Container(
                   child: Center(
                     child:

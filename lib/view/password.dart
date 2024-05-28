@@ -43,7 +43,7 @@ class _PasswordState extends State<Password> {
                   ),
                 ),
               ),
-              SizedBox(height: 32),
+              SizedBox(height: 24),
               Container(
                   child: Center(
                     child:

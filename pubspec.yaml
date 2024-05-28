@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_nav_bar: ^5.0.6
   smooth_page_indicator: ^1.0.0
+  accordion: ^2.6.0
 
 dev_dependencies:
   flutter_test:
