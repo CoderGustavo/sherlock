@@ -18,14 +18,16 @@ class Person():
         print(number)
         try:
             cmd = f'''
-            curl https://search5.truecaller.com/v2/search?q={number}&countryCode=55&type=4&placement=SEARCHRESULTS,HISTORY,DETAILS&encoding=json
-            -H "Accept: application/json"
-            -H "Authorization: Bearer a1i0U--n5MXr9VPkdIzKqC-fMJkEmGWrbnvL-sXc7tj-kG4OLXOKlEGvM7HY-c8r"
+                curl https://search5.truecaller.com/v2/search?q={number}&countryCode=55&type=4&placement=SEARCHRESULTS,HISTORY,DETAILS&encoding=json
+                -H "Accept: application/json"
+                -H "Authorization: Bearer a1i0U--n5MXr9VPkdIzKqC-fMJkEmGWrbnvL-sXc7tj-kG4OLXOKlEGvM7HY-c8r"
             '''
             args = shlex.split(cmd)
             process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
+            logger.info({'conteudo_number': stdout})
             response = json.loads(stdout)
+            logger.info({'conteudo_number_json': response})
             score = 0
             desc = "Nenhuma descrição, número parece legitimo."
             if "score" in response["data"][0].keys(): score = 100-ceil(float(response["data"][0]["score"]*100))
