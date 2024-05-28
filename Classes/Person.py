@@ -10,6 +10,8 @@ from math import ceil
 
 from Middlewares.logger import logger
 
+import requests
+
 class Person():
     def __init__(self):
         pass
@@ -17,15 +19,25 @@ class Person():
     def check_number(self, number):
         print(number)
         try:
-            cmd = f'''
-                curl https://search5.truecaller.com/v2/search?q={number}&countryCode=55&type=4&placement=SEARCHRESULTS,HISTORY,DETAILS&encoding=json
-                -H "Accept: application/json"
-                -H "Authorization: Bearer a1i0U--n5MXr9VPkdIzKqC-fMJkEmGWrbnvL-sXc7tj-kG4OLXOKlEGvM7HY-c8r"
-            '''
-            args = shlex.split(cmd)
-            process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout, stderr = process.communicate()
+            # cmd = f'''
+            #     curl https://search5.truecaller.com/v2/search?q={number}&countryCode=55&type=4&placement=SEARCHRESULTS,HISTORY,DETAILS&encoding=json
+            #     -H "Accept: application/json"
+            #     -H "Authorization: Bearer a1i0U--n5MXr9VPkdIzKqC-fMJkEmGWrbnvL-sXc7tj-kG4OLXOKlEGvM7HY-c8r"
+            # '''
+            # args = shlex.split(cmd)
+            # process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            # stdout, stderr = process.communicate()
+            stdout = requests.get(
+                'https://search5.truecaller.com/v2/search?q={number}&countryCode=55&type=4&placement=SEARCHRESULTS,HISTORY,DETAILS&encoding=json',
+                headers={
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer a1i0U--n5MXr9VPkdIzKqC-fMJkEmGWrbnvL-sXc7tj-kG4OLXOKlEGvM7HY-c8r'
+                    }
+                )
             logger.info({'conteudo_number': stdout})
+            logger.info({'conteudo_number': stdout.json})
+            logger.info({'conteudo_number': stdout.content})
+            logger.info({'conteudo_number': stdout.text})
             response = json.loads(stdout)
             logger.info({'conteudo_number_json': response})
             score = 0
