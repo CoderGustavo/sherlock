@@ -10,7 +10,8 @@ class Info extends StatefulWidget {
 }
 
 class _InfoState extends State<Info> {
-
+  bool _customTileExpanded = false;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +20,7 @@ class _InfoState extends State<Info> {
           padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: <Widget>[
               Center(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
@@ -38,75 +39,96 @@ class _InfoState extends State<Info> {
                 ),
               ),
               SizedBox(height: 20),
-              Text(
-                "Protegendo seu e-mail",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+              const ExpansionTile(
+                  title: Text(
+                    "Protegendo seu e-mail",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  children: <Widget> [
+                    ListTile(
+                      title: Text(
+                        'Seu e-mail é como sua identidade online. Mantenha sua senha segura e não compartilhe com ninguém. Evite clicar em links suspeitos enviados por e-mail, pois eles podem ser usados para roubar suas informações pessoais.',
+                        textAlign: TextAlign.justify,
+                      ),
+                    )
+                  ],
+              ),
+              const ExpansionTile(
+                title: Text(
+                  "O que é phishing?",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                children: <Widget> [
+                  ListTile(
+                    title: Text(
+                      'Phishing é uma técnica usada por criminosos para enganar você e obter suas informações confidenciais, como senhas e números de cartão de crédito. Fique atento a e-mails ou mensagens suspeitas solicitando suas informações pessoais.',
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 4),
-              Text(
-                'Seu e-mail é como sua identidade online. Mantenha sua senha segura e não compartilhe com ninguém. Evite clicar em links suspeitos enviados por e-mail, pois eles podem ser usados para roubar suas informações pessoais.',
-                textAlign: TextAlign.justify,
-              ),
-              SizedBox(height: 20),
-              Text(
-                "O que é phishing?",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+              const ExpansionTile(
+                title: Text(
+                  "Cuidados com contas bancárias",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                children: <Widget> [
+                  ListTile(
+                    title: Text(
+                      'Ao acessar sua conta bancária online, certifique-se de estar em um site seguro. Verifique se há um cadeado na barra de endereço e evite realizar transações financeiras em redes Wi-Fi públicas, pois elas podem não ser seguras.',
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 4),
-              Text(
-                'Phishing é uma técnica usada por criminosos para enganar você e obter suas informações confidenciais, como senhas e números de cartão de crédito. Fique atento a e-mails ou mensagens suspeitas solicitando suas informações pessoais.',
-                textAlign: TextAlign.justify,
-              ),
-              SizedBox(height: 20),
-              Text(
-                "Cuidados com contas bancárias",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+              const ExpansionTile(
+                title: Text(
+                  "SPAM e Mensagens suspeitas",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                children: <Widget> [
+                  ListTile(
+                    title: Text(
+                      'Mantenha-se alerta a e-mails ou mensagens não solicitadas, pois podem conter vírus ou tentativas de golpes. Não clique em links ou baixe anexos de remetentes desconhecidos.',
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 4),
-              Text(
-                'Ao acessar sua conta bancária online, certifique-se de estar em um site seguro. Verifique se há um cadeado na barra de endereço e evite realizar transações financeiras em redes Wi-Fi públicas, pois elas podem não ser seguras.',
-                textAlign: TextAlign.justify,
-              ),
-              SizedBox(height: 20),
-              Text(
-                "SPAM e Mensagens suspeitas",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+              const ExpansionTile(
+                title: Text(
+                  "O que é Engenharia social?",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(height: 4),
-              Text(
-                'Mantenha-se alerta a e-mails ou mensagens não solicitadas, pois podem conter vírus ou tentativas de golpes. Não clique em links ou baixe anexos de remetentes desconhecidos.',
-                textAlign: TextAlign.justify,
-              ),
-              SizedBox(height: 20),
-              Text(
-                "O que é Engenharia social?",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 4),
-              Text(
-                'A Engenharia Social é uma técnica usada por hackers para manipular pessoas e obter informações confidenciais. Desconfie de solicitações incomuns por telefone ou e-mail, mesmo que pareçam legítimas.',
-                textAlign: TextAlign.justify,
-              ),
+                children: <Widget> [
+                  ListTile(
+                    title: Text(
+                      'A Engenharia Social é uma técnica usada por hackers para manipular pessoas e obter informações confidenciais. Desconfie de solicitações incomuns por telefone ou e-mail, mesmo que pareçam legítimas.',
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
