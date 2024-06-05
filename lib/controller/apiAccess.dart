@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-String apiDomain = 'https://sherlock-backend-vinw.onrender.com/';
+String apiDomain = 'http://192.168.35.180/';
 
 Future <Map<String, dynamic>> passwordAnalysis (String password) async {
   String apiUrl = apiDomain + 'check_password?password=' + Uri.encodeComponent('$password');

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sherlock/view/home_page.dart';
 import 'package:sherlock/controller/apiAccess.dart';
 
-Widget _buildIcon(Map urlAnalisada){
+Widget _buildIcon(Map urlAnalisada) {
   if (urlAnalisada['valida'] == '...') {
     return Icon(Icons.add_link_rounded);
-  } else if (urlAnalisada['valida'] == true)  {
+  } else if (urlAnalisada['valida'] == true) {
     return Icon(Icons.tag_faces_outlined, color: Colors.green);
   } else {
     return Icon(Icons.error_outlined, color: Colors.red);
@@ -20,10 +20,8 @@ class Phishing extends StatefulWidget {
 }
 
 class _PhishingState extends State<Phishing> {
-
   final _textController = TextEditingController();
   Map<String, dynamic> urlAnalisada = {'valida': '...', 'motivo': '...'};
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,22 +37,22 @@ class _PhishingState extends State<Phishing> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Image.asset(
-                    '../assets/logo.png',
+                    'assets/logo.png',
                   ),
                 ),
               ),
               SizedBox(height: 24),
               Container(
-                  child: Center(
-                    child:
-                    Text('VERIFIQUE UM LINK',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),),
+                child: Center(
+                  child: Text(
+                    'VERIFIQUE UM LINK',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-
+              ),
               TextField(
                 controller: _textController,
                 decoration: InputDecoration(
@@ -86,49 +84,61 @@ class _PhishingState extends State<Phishing> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-        
                   TextField(
                     enabled: false,
                     minLines: 1,
                     maxLines: null,
                     decoration: InputDecoration(
                       labelText: 'Link confiável?',
-                      labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
+                      labelStyle: TextStyle(
+                          color: Colors.black), // Cor do texto do label
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black), // Cor da borda
+                        borderSide:
+                            BorderSide(color: Colors.black), // Cor da borda
                       ),
                       suffixIcon: _buildIcon(urlAnalisada),
                     ),
-                    style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
-                    controller: TextEditingController(text: urlAnalisada['valida'] == true ? "Link confiável" : urlAnalisada['valida'] == "..." ? "..." : "CUIDADO! Link não confiável"),
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.black), // Cor do texto
+                    controller: TextEditingController(
+                        text: urlAnalisada['valida'] == true
+                            ? "Link confiável"
+                            : urlAnalisada['valida'] == "..."
+                                ? "..."
+                                : "CUIDADO! Link não confiável"),
                     // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                     onChanged: (_) => setState(() {}),
                   ),
-        
+
                   SizedBox(height: 20), // Espaço entre os TextField
-        
+
                   TextField(
                     enabled: false,
                     minLines: 1,
-                    maxLines: null, // Isso permite que o campo tenha várias linhas conforme necessário
+                    maxLines:
+                        null, // Isso permite que o campo tenha várias linhas conforme necessário
                     decoration: InputDecoration(
                       labelText: 'Avaliação',
-                      labelStyle: TextStyle(color: Colors.black), // Cor do texto do label
+                      labelStyle: TextStyle(
+                          color: Colors.black), // Cor do texto do label
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black), // Cor da borda
+                        borderSide:
+                            BorderSide(color: Colors.black), // Cor da borda
                       ),
                     ),
-                    style: TextStyle(fontFamily: 'Roboto', color: Colors.black), // Cor do texto
-                    controller: TextEditingController(text: urlAnalisada['motivo']),
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.black), // Cor do texto
+                    controller:
+                        TextEditingController(text: urlAnalisada['motivo']),
                     // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                     onChanged: (_) => setState(() {}),
                   ),
-        
+
                   SizedBox(height: 10), // Espaço entre os TextField
                 ],
               ),
-        
-        
             ],
           ),
         ),
@@ -139,17 +149,21 @@ class _PhishingState extends State<Phishing> {
         height: 50.0,
         color: Colors.black,
         child: Container(
-          height: 50.0,  // Ajuste para diminuir a altura da barra inferior
+          height: 50.0, // Ajuste para diminuir a altura da barra inferior
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 0.0),  // Adicionar margem superior ao botão
+        padding: const EdgeInsets.only(
+            top: 0.0), // Adicionar margem superior ao botão
         child: FloatingActionButton(
           shape: CircleBorder(),
           backgroundColor: Colors.red[900],
           onPressed: () {
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+                (route) => false);
           },
           child: Icon(Icons.home, color: Colors.white),
         ),
