@@ -4,40 +4,52 @@ import json
 
 import g4f
 
-import shlex
-import subprocess
 from math import ceil
+
+import urllib.request
+import json
 
 from Middlewares.logger import logger
 
-import requests
 
 class Person():
     def __init__(self):
         pass
 
-    def check_number(self, number):
-        print(number)
+    def verifica_spam_truecaller(self, numero):
+        # URL da API do Truecaller para verificação de spam
+        url = f'https://search5.truecaller.com/v2/search?q={numero}&countryCode=55&type=4&placement=SEARCHRESULTS,HISTORY,DETAILS&encoding=json'
+        
+        # Adicione sua chave de API do Truecaller aqui
+        headers = {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer a1i05--nV5gAkVaFAxu4oW5h-a5jRNKbnjePiPN54pTQLJDm9jr1WNCIp7J8xCRF'
+        }
+        
         try:
-            cmd = f'''
-                curl https://search5.truecaller.com/v2/search?q={number}&countryCode=55&type=4&placement=SEARCHRESULTS,HISTORY,DETAILS&encoding=json
-                -H "Accept: application/json"
-                -H "Authorization: Bearer a1i0U--n5MXr9VPkdIzKqC-fMJkEmGWrbnvL-sXc7tj-kG4OLXOKlEGvM7HY-c8r"
-            '''
-            args = shlex.split(cmd)
-            process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout, stderr = process.communicate()
-            # stdout = requests.get(
-            #     'https://search5.truecaller.com/v2/search?q={number}&countryCode=55&type=4&placement=SEARCHRESULTS,HISTORY,DETAILS&encoding=json',
-            #     headers={
-            #             'Accept': 'application/json',
-            #             'Authorization': 'Bearer a1i0U--n5MXr9VPkdIzKqC-fMJkEmGWrbnvL-sXc7tj-kG4OLXOKlEGvM7HY-c8r'
-            #         }
-            #     )
-            logger.info({'conteudo_number': stdout})
-            logger.info({'conteudo_number_error': stderr})
-            response = json.loads(stdout)
-            logger.info({'conteudo_number_json': response})
+            # Cria uma requisição GET usando urllib
+            req = urllib.request.Request(url, headers=headers)
+            
+            # Abre a conexão e obtém a resposta
+            with urllib.request.urlopen(req) as response:
+                data = response.read()
+                data = json.loads(data)
+                return data
+        
+        except urllib.error.HTTPError as e:
+            print(f"Erro ao consultar Truecaller API: {e.code} - {e.reason}")
+            return None
+        except urllib.error.URLError as e:
+            print(f"Erro de conexão: {e.reason}")
+            return None
+        except Exception as e:
+            print(f"Erro inesperado: {e}")
+            return None
+
+    def check_number(self, number):
+        try:
+            response = self.verifica_spam_truecaller(number)
+            logger.info({'conteudo_number': response})
             score = 0
             desc = "Nenhuma descrição, número parece legitimo."
             if "score" in response["data"][0].keys(): score = 100-ceil(float(response["data"][0]["score"]*100))
@@ -53,43 +65,32 @@ class Person():
 
     def check_sms(self, number, sms):
         try:
-            number_check = self.check_number(number)
-            number_score = number_check["number_score"]
-            number_score_reason = number_check["description"]
-        except Exception as err:
-            logger.info(err)
-            number_score = 0
-            number_score_reason = "Tivemos algum erro ao tentar validar o número inserido."
-
-        try:
             response = None
             timeout = 0
             while response == None and timeout < 5:
                 res = Reusable().useAI(g4f.models.gpt_35_long, \
                     [ \
                         {"role": "user", "content": f"sms: {sms}"}, \
-                        {"role": "user", "content": "Sua reposta deve conter apenas um json"}, \
-                        {"role": "user", "content": "Este sms com esse número pode ser um golpe? retorne a resposta em formato json contendo: nivel de chance de 0 a 100 e motivo"}\
+                        {"role": "user", "content": "Sua reposta deve conter APENAS E UNICAMENTE um JSON"}, \
+                        {"role": "user", "content": "Este sms pode ser um golpe? retorne a resposta em formato json contendo: chance (de 0 a 100) e motivo"}\
                     ])
-                if "nivel_de_chance" in res.keys() and "motivo" in res.keys(): response = res
+                if "chance" in res.keys() and "motivo" in res.keys(): response = res
                 timeout += 1
 
             if timeout == 5:
                 response = {
-                    "nivel_de_chance": 100,
+                    "chance": 100,
                     "motivo": "Erro ao tentar acessar nossa AI"
                 }
 
         except Exception as err:
             print(err)
             response = {
-                "nivel_de_chance": 100,
+                "chance": 100,
                 "motivo": "Erro ao tentar acessar nossa AI"
             }
 
         return {
-            "number_score": number_score,
-            "number_score_reason": number_score_reason,
-            "sms_score": response['nivel_de_chance'],
+            "sms_score": response['chance'],
             "sms_score_reason": response['motivo']
         }
