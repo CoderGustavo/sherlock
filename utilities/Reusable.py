@@ -3,7 +3,7 @@ import os
 from fastapi.responses import JSONResponse
 import base64
 from random import randint
-import g4f
+#import g4f
 import json
 
 from middlewares.logger import logger
@@ -44,13 +44,13 @@ class Reusable():
         return None
 
     def useAI(self, model, message):
-        if (model != 'gemini'):
-            response = g4f.ChatCompletion.create(
-                model= model,
-                messages=message
-            )
-            logger.info(response)
-            return json.loads(response.replace("```json", "").replace("```", ""))
+        # if (model != 'gemini'):
+        #     response = g4f.ChatCompletion.create(
+        #         model= model,
+        #         messages=message
+        #     )
+        #     logger.info(response)
+        #     return json.loads(response.replace("```json", "").replace("```", ""))
 
         genai.configure(api_key=os.environ["API_KEY"])
         model = genai.GenerativeModel("gemini-1.5-flash")
