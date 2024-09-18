@@ -1,4 +1,4 @@
-from Utilities.Validators import Validators
+from utilities.Validators import Validators
 
 class Password():
     def __init__(self):

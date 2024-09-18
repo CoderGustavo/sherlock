@@ -6,7 +6,10 @@ from random import randint
 import g4f
 import json
 
-from Middlewares.logger import logger
+from middlewares.logger import logger
+
+import google.generativeai as genai
+import os
 
 class Reusable():
     # Reusable class
@@ -41,9 +44,17 @@ class Reusable():
         return None
 
     def useAI(self, model, message):
-        response = g4f.ChatCompletion.create(
-            model= model,
-            messages=message
-        )
-        logger.info(response)
-        return json.loads(response.replace("```json", "").replace("```", ""))
+        if (model != 'gemini'):
+            response = g4f.ChatCompletion.create(
+                model= model,
+                messages=message
+            )
+            logger.info(response)
+            return json.loads(response.replace("```json", "").replace("```", ""))
+
+        genai.configure(api_key=os.environ["API_KEY"])
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        response = model.generate_content(message)
+
+        return json.loads(response.text.replace("```json", "").replace("```", ""))
+
