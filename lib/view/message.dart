@@ -3,7 +3,7 @@ import 'package:sherlock/view/home_page.dart';
 import 'package:sherlock/controller/apiAccess.dart';
 
 Widget _buildIcon(Map menssagemAnalisada) {
-  if (menssagemAnalisada['sms_score'] == '...') {
+  if (menssagemAnalisada['sms_score'] == '...' || menssagemAnalisada['sms_score'] == null) {
     return Icon(Icons.message_rounded);
   } else if (menssagemAnalisada['sms_score'] <= 30) {
     return Icon(Icons.tag_faces_outlined, color: Colors.green);
@@ -105,7 +105,7 @@ class _MessageState extends State<Message> {
                         fontFamily: 'Roboto',
                         color: Colors.black), // Cor do texto
                     controller: TextEditingController(
-                        text: menssagemAnalisada['sms_score'].toString()),
+                        text: menssagemAnalisada['sms_score'] == null ? "Erro na consulta!" : menssagemAnalisada['sms_score'].toString()),
                     // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                     onChanged: (_) => setState(() {}),
                   ),
@@ -130,7 +130,7 @@ class _MessageState extends State<Message> {
                         fontFamily: 'Roboto',
                         color: Colors.black), // Cor do texto
                     controller: TextEditingController(
-                        text: menssagemAnalisada['sms_score_reason']),
+                        text: menssagemAnalisada['sms_score_reason'] ?? "Erro na consulta. Tente novamente mais tarde"),
                     // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                     onChanged: (_) => setState(() {}),
                   ),

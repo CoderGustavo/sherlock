@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sherlock/view/call.dart';
+import 'package:sherlock/view/checkapp.dart';
 import 'package:sherlock/view/message.dart';
 import 'package:sherlock/view/phishing.dart';
 import 'package:sherlock/view/password.dart';
@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                     width: 320,
                     child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Call()), (route) => false);
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CheckApp()), (route) => false);
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(0),
                                 child: Center(
-                                  child: Text('O número é SPAM?',
+                                  child: Text('O aplicativo é confiável?',
                                     style: TextStyle(fontSize: 20, color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),

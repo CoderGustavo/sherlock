@@ -109,7 +109,7 @@ class _PasswordState extends State<Password> {
                         fontFamily: 'Roboto',
                         color: Colors.black), // Cor do texto
                     controller: TextEditingController(
-                        text: senhaAnalisada['level'].toString()),
+                        text: senhaAnalisada['level'] == null ? "Erro na consulta!" : senhaAnalisada['level'].toString()),
                     // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                     onChanged: (_) => setState(() {}),
                   ),
@@ -134,7 +134,7 @@ class _PasswordState extends State<Password> {
                         fontFamily: 'Roboto',
                         color: Colors.black), // Cor do texto
                     controller: TextEditingController(
-                        text: senhaAnalisada['description']),
+                        text: senhaAnalisada['description'] ?? "Erro na consulta. Tente novamente mais tarde"),
                     // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                     onChanged: (_) => setState(() {}),
                   ),

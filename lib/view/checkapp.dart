@@ -2,26 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:sherlock/view/home_page.dart';
 import 'package:sherlock/controller/apiAccess.dart';
 
-Widget _buildIcon(Map urlAnalisada) {
-  if (urlAnalisada['valida'] == '...') {
-    return Icon(Icons.add_link_rounded);
-  } else if (urlAnalisada['valida'] == true) {
+Widget _buildIcon(Map appAnalisado) {
+  if (appAnalisado['score'] == '...' || appAnalisado['score'] == null) {
+    return Icon(Icons.app_registration_outlined);
+  } else if (appAnalisado['score'] <= 30) {
     return Icon(Icons.tag_faces_outlined, color: Colors.green);
   } else {
     return Icon(Icons.error_outlined, color: Colors.red);
   }
 }
 
-class Phishing extends StatefulWidget {
-  const Phishing({Key? key}) : super(key: key);
+class CheckApp extends StatefulWidget {
+  const CheckApp({Key? key}) : super(key: key);
 
   @override
-  State<Phishing> createState() => _PhishingState();
+  State<CheckApp> createState() => _CheckAppState();
 }
 
-class _PhishingState extends State<Phishing> {
+class _CheckAppState extends State<CheckApp> {
   final _textController = TextEditingController();
-  Map<String, dynamic> urlAnalisada = {'valida': '...', 'motivo': '...'};
+  Map<String, dynamic> appAnalisado = {
+    'score': '...',
+    'description': '...',
+    'play_store': '...',
+    'app_store': '...',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +50,7 @@ class _PhishingState extends State<Phishing> {
               Container(
                 child: Center(
                   child: Text(
-                    'VERIFIQUE UM LINK',
+                    'APLICATIVO CONFIÁVEL?',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -56,7 +61,7 @@ class _PhishingState extends State<Phishing> {
               TextField(
                 controller: _textController,
                 decoration: InputDecoration(
-                  hintText: 'Insira um link',
+                  hintText: 'Digite o nome do aplicativo',
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -70,8 +75,8 @@ class _PhishingState extends State<Phishing> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: MaterialButton(
                   onPressed: () async {
-                    var inputUrl = _textController.text;
-                    urlAnalisada = await urlAnalysis(inputUrl);
+                    var inputApp = _textController.text;
+                    appAnalisado = await appAnalysis(inputApp);
                     setState(() {});
                   },
                   color: Colors.black,
@@ -89,26 +94,20 @@ class _PhishingState extends State<Phishing> {
                     minLines: 1,
                     maxLines: null,
                     decoration: InputDecoration(
-                      labelText: 'Link confiável?',
+                      labelText: 'Possibilidade de ser um aplicativo malicioso',
                       labelStyle: TextStyle(
                           color: Colors.black), // Cor do texto do label
                       border: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Colors.black), // Cor da borda
                       ),
-                      suffixIcon: _buildIcon(urlAnalisada),
+                      suffixIcon: _buildIcon(appAnalisado),
                     ),
                     style: TextStyle(
                         fontFamily: 'Roboto',
                         color: Colors.black), // Cor do texto
                     controller: TextEditingController(
-                        text: urlAnalisada['valida'] == true
-                            ? "Link confiável"
-                            : urlAnalisada['valida'] == "..."
-                                ? "..."
-                                  : urlAnalisada['valida'] == null
-                                    ? "Erro na consulta!"
-                                      :"CUIDADO! Link não confiável"),
+                        text: appAnalisado['score'] == null ? "Erro na consulta!" : appAnalisado['score'].toString()),
                     // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                     onChanged: (_) => setState(() {}),
                   ),
@@ -121,7 +120,7 @@ class _PhishingState extends State<Phishing> {
                     maxLines:
                         null, // Isso permite que o campo tenha várias linhas conforme necessário
                     decoration: InputDecoration(
-                      labelText: 'Avaliação',
+                      labelText: 'Descrição',
                       labelStyle: TextStyle(
                           color: Colors.black), // Cor do texto do label
                       border: OutlineInputBorder(
@@ -132,13 +131,71 @@ class _PhishingState extends State<Phishing> {
                     style: TextStyle(
                         fontFamily: 'Roboto',
                         color: Colors.black), // Cor do texto
-                    controller:
-                        TextEditingController(text: urlAnalisada['motivo'] ?? "Erro na consulta. Tente novamente mais tarde"),
+                    controller: TextEditingController(
+                        text: appAnalisado['description'] ?? "Erro na consulta. Tente novamente mais tarde"),
                     // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                     onChanged: (_) => setState(() {}),
                   ),
 
-                  SizedBox(height: 10), // Espaço entre os TextField
+                  SizedBox(height: 20), // Espaço entre os TextField
+
+                  TextField(
+                    enabled: false,
+                    minLines: 1,
+                    maxLines:
+                    null, // Isso permite que o campo tenha várias linhas conforme necessário
+                    decoration: InputDecoration(
+                      labelText: 'Disponível na Play Store?',
+                      labelStyle: TextStyle(
+                          color: Colors.black), // Cor do texto do label
+                      border: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.black), // Cor da borda
+                      ),
+                    ),
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.black), // Cor do texto
+                    controller: TextEditingController(
+                        text: (appAnalisado['play_store'] ?? 0) == 1
+                            ? "Disponível"
+                            : (appAnalisado['play_store'] == null || appAnalisado['play_store'] == "..." || appAnalisado['play_store'] == 555)
+                            ? "..."
+                            : "Não disponível"),
+                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
+                    onChanged: (_) => setState(() {}),
+                  ),
+
+                  SizedBox(height: 20), // Espaço entre os TextField
+
+                  TextField(
+                    enabled: false,
+                    minLines: 1,
+                    maxLines:
+                    null, // Isso permite que o campo tenha várias linhas conforme necessário
+                    decoration: InputDecoration(
+                      labelText: 'Disponível na Apple Store?',
+                      labelStyle: TextStyle(
+                          color: Colors.black), // Cor do texto do label
+                      border: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.black), // Cor da borda
+                      ),
+                    ),
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.black), // Cor do texto
+                    controller: TextEditingController(
+                        text: (appAnalisado['app_store'] ?? 0) == 1
+                            ? "Disponível"
+                            : (appAnalisado['app_store'] == null || appAnalisado['app_store'] == "..." || appAnalisado['app_store'] == 555)
+                            ? "..."
+                            : "Não disponível"),
+                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
+                    onChanged: (_) => setState(() {}),
+                  ),
+
+                  SizedBox(height: 20), // Espaço entre os TextField
                 ],
               ),
             ],
