@@ -35,3 +35,11 @@ Future <Map<String, dynamic>> urlAnalysis (String url) async {
 
   return resultado;
 }
+
+Future <Map<String, dynamic>> fakenewsAnalysis (String news) async {
+  String apiUrl = apiDomain + 'check_fakenews?url=' + Uri.encodeComponent('$news');
+  var response = await http.post(Uri.parse(apiUrl));
+  var resultado = json.decode(utf8.decode(response.bodyBytes));
+
+  return resultado;
+}
