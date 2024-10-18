@@ -4,7 +4,7 @@ import 'package:sherlock/controller/apiAccess.dart';
 
 Widget _buildIcon(Map fakenewsAnalisada) {
   if (fakenewsAnalisada['fake'] == '...') {
-    return Icon(Icons.add_link_rounded);
+    return Icon(Icons.newspaper_rounded);
   } else if (fakenewsAnalisada['fake'] == false) {
     return Icon(Icons.tag_faces_outlined, color: Colors.green);
   } else {
@@ -12,14 +12,14 @@ Widget _buildIcon(Map fakenewsAnalisada) {
   }
 }
 
-class Phishing extends StatefulWidget {
-  const Phishing({Key? key}) : super(key: key);
+class FakeNews extends StatefulWidget {
+  const FakeNews({Key? key}) : super(key: key);
 
   @override
-  State<Phishing> createState() => _PhishingState();
+  State<FakeNews> createState() => _FakeNewsState();
 }
 
-class _PhishingState extends State<Phishing> {
+class _FakeNewsState extends State<FakeNews> {
   final _textController = TextEditingController();
   Map<String, dynamic> fakenewsAnalisada = {'fake': '...', 'description': '...'};
 
@@ -45,7 +45,7 @@ class _PhishingState extends State<Phishing> {
               Container(
                 child: Center(
                   child: Text(
-                    'VERIFIQUE UM LINK',
+                    'VERIFIQUE UMA NOTÍCIA',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class _PhishingState extends State<Phishing> {
               TextField(
                 controller: _textController,
                 decoration: InputDecoration(
-                  hintText: 'Insira um link',
+                  hintText: 'Insira uma notícia ou boato',
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -89,7 +89,7 @@ class _PhishingState extends State<Phishing> {
                     minLines: 1,
                     maxLines: null,
                     decoration: InputDecoration(
-                      labelText: 'Link confiável?',
+                      labelText: 'Notícia ou boato verdadeiro?',
                       labelStyle: TextStyle(
                           color: Colors.black), // Cor do texto do label
                       border: OutlineInputBorder(
@@ -103,12 +103,12 @@ class _PhishingState extends State<Phishing> {
                         color: Colors.black), // Cor do texto
                     controller: TextEditingController(
                         text: fakenewsAnalisada['fake'] == true
-                            ? "Isso é uma FakeNews!"
+                            ? "Isso é uma Notícia falsa (FakeNews)!"
                             : fakenewsAnalisada['fake'] == "..."
                                 ? "..."
                                   : fakenewsAnalisada['fake'] == null
                                     ? "Erro na consulta!"
-                                      :"Não há indícios de ser uma FakeNews"),
+                                      :"Não há indícios de ser uma notícia falsa (FakeNews)"),
                     // Use o onChanged para forçar a atualização do layout quando o texto for alterado
                     onChanged: (_) => setState(() {}),
                   ),

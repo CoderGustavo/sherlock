@@ -5,6 +5,7 @@ import 'package:sherlock/view/message.dart';
 import 'package:sherlock/view/phishing.dart';
 import 'package:sherlock/view/password.dart';
 import 'package:sherlock/view/info.dart';
+import 'package:sherlock/view/fakenews.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -226,13 +227,62 @@ class _HomePageState extends State<HomePage> {
                     width: 320,
                     child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Info()), (route) => false);
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => FakeNews()), (route) => false);
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
                           backgroundColor: Colors.grey[900],
+                          shadowColor: Colors.black, // Cor da sombra
+                          elevation: 8, // Altura da sombra
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.all(0),
+                                child: Center(
+                                  child: Icon(Icons.newspaper_rounded,
+                                    size: 40,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 8,
+                              child: Padding(
+                                padding: const EdgeInsets.all(0),
+                                child: Center(
+                                  child: Text('Verifique uma notícia ou boato',
+                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  child: SizedBox(
+                    width: 320,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Info()), (route) => false);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          backgroundColor: Colors.red[900],
                           shadowColor: Colors.black, // Cor da sombra
                           elevation: 8, // Altura da sombra
                         ),
