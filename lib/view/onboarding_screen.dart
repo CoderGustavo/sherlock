@@ -56,7 +56,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         _controller.jumpToPage(2);
                       },
                       child: Text('Pular',
-                      style: TextStyle(color: Colors.white),),
+                      style: TextStyle(color: Colors.white, fontSize: 20),),
                   ),
 
                   //dot indicator
@@ -73,7 +73,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                         );
                       },
-                      child: Text('Fim', style: TextStyle(color: Colors.white),)
+                      child: Text('Fim', style: TextStyle(color: Colors.white, fontSize: 20),)
                   )
                   : GestureDetector(
                       onTap: () {
@@ -82,7 +82,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           curve: Curves.easeIn,
                         );
                       },
-                      child: Text('Próximo', style: TextStyle(color: Colors.white),)
+                      child: Text('Próximo', style: TextStyle(color: Colors.white, fontSize: 20),)
                   ),
                 ],
               )),
