@@ -1,160 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:sherlock/view/home_page.dart';
 import 'package:sherlock/controller/apiAccess.dart';
+import 'package:sherlock/view/widgets/infoCard.dart';
 
-Widget _buildIcon(Map menssagemAnalisada) {
-  if (menssagemAnalisada['sms_score'] == '...' || menssagemAnalisada['sms_score'] == null) {
-    return Icon(Icons.message_rounded);
-  } else if (menssagemAnalisada['sms_score'] <= 30) {
-    return Icon(Icons.tag_faces_outlined, color: Colors.green);
+Widget _buildIcon(Map mensagemAnalisada) {
+  if (mensagemAnalisada['score'] == '...') {
+    return Icon(Icons.message);
+  } else if (mensagemAnalisada['score'] == 0) {
+    return Icon(Icons.error_outline, color: Colors.red, size: 50);
   } else {
-    return Icon(Icons.error_outlined, color: Colors.red);
+    return Icon(Icons.tag_faces_outlined, color: Colors.green, size: 50);
   }
 }
 
-class Message extends StatefulWidget {
-  const Message({Key? key}) : super(key: key);
+class MessageCheck extends StatefulWidget {
+  const MessageCheck({Key? key}) : super(key: key);
 
   @override
-  State<Message> createState() => _MessageState();
+  State<MessageCheck> createState() => _MessageCheckState();
 }
 
-class _MessageState extends State<Message> {
+class _MessageCheckState extends State<MessageCheck> {
   final _textController = TextEditingController();
-  Map<String, dynamic> menssagemAnalisada = {
-    'sms_score': '...',
-    'sms_score_reason': '...'
-  };
+  Map<String, dynamic> mensagemAnalisada = {'score': '...', 'reason': '...'};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  child: Image.asset(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
                     'assets/logo.png',
+                    height: 60,
+                    width: 60,
                   ),
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                child: Center(
-                  child: Text(
-                    'MENSAGEM SUSPEITA?',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(width: 15),
+                  Flexible(
+                    child: Text(
+                      'Verifique se uma Mensagem é Segura',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
+              SizedBox(height: 30),
               TextField(
                 controller: _textController,
+                textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: 'Digite uma mensagem',
-                  border: const OutlineInputBorder(),
+                  hintText: 'Digite a mensagem',
+                  hintStyle: TextStyle(fontSize: 18),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
                   suffixIcon: IconButton(
                     onPressed: () {
                       _textController.clear();
                     },
-                    icon: const Icon(Icons.clear),
+                    icon: Icon(Icons.clear),
                   ),
                 ),
+                style: TextStyle(fontSize: 18),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: MaterialButton(
-                  onPressed: () async {
-                    var inputMessage = _textController.text;
-                    menssagemAnalisada = await messageAnalysis(inputMessage);
-                    setState(() {});
-                  },
-                  color: Colors.black,
-                  child: const Text(
-                    'Verificar',
-                    style: TextStyle(color: Colors.white),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  var inputMessage = _textController.text;
+                  mensagemAnalisada = await messageAnalysis(inputMessage);
+                  setState(() {});
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red[400],
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                child: Text(
+                  'Verificar Mensagem',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextField(
-                    enabled: false,
-                    minLines: 1,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      labelText: 'Possibilidade de Fraude',
-                      labelStyle: TextStyle(
-                          color: Colors.black), // Cor do texto do label
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.black), // Cor da borda
-                      ),
-                      suffixIcon: _buildIcon(menssagemAnalisada),
-                    ),
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: Colors.black), // Cor do texto
-                    controller: TextEditingController(
-                        text: menssagemAnalisada['sms_score'] == null ? "Erro na consulta!" : menssagemAnalisada['sms_score'].toString()),
-                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                    onChanged: (_) => setState(() {}),
-                  ),
-
-                  SizedBox(height: 20), // Espaço entre os TextField
-
-                  TextField(
-                    enabled: false,
-                    minLines: 1,
-                    maxLines:
-                        null, // Isso permite que o campo tenha várias linhas conforme necessário
-                    decoration: InputDecoration(
-                      labelText: 'Motivo',
-                      labelStyle: TextStyle(
-                          color: Colors.black), // Cor do texto do label
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.black), // Cor da borda
-                      ),
-                    ),
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: Colors.black), // Cor do texto
-                    controller: TextEditingController(
-                        text: menssagemAnalisada['sms_score_reason'] ?? "Erro na consulta. Tente novamente mais tarde"),
-                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                    onChanged: (_) => setState(() {}),
-                  ),
-
-                  SizedBox(height: 10), // Espaço entre os TextField
-                ],
+              SizedBox(height: 30),
+              InfoCard(
+                label: 'Nível de segurança:',
+                value: mensagemAnalisada['score'] == null
+                    ? "Erro na consulta!"
+                    : mensagemAnalisada['score'].toString(),
+                icon: _buildIcon(mensagemAnalisada),
+              ),
+              InfoCard(
+                label: 'Descrição:',
+                value: mensagemAnalisada['reason'] ?? "Erro na consulta. Tente novamente mais tarde",
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 10.0,
-        height: 50.0,
-        color: Colors.black,
-        child: Container(
-          height: 50.0, // Ajuste para diminuir a altura da barra inferior
-        ),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(
-            top: 0.0), // Adicionar margem superior ao botão
+        padding: const EdgeInsets.only(top: 0.0),
         child: FloatingActionButton(
           shape: CircleBorder(),
           backgroundColor: Colors.red[900],
@@ -167,6 +126,16 @@ class _MessageState extends State<Message> {
           child: Icon(Icons.home, color: Colors.white),
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 10.0,
+        height: 50.0,
+        color: Colors.black,
+        child: Container(
+          height: 50.0,
+        ),
+      ),
     );
   }
+
 }

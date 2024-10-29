@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sherlock/view/home_page.dart';
 import 'package:sherlock/controller/apiAccess.dart';
+import 'package:sherlock/view/widgets/infoCard.dart';
 
 Widget _buildIcon(Map fakenewsAnalisada) {
   if (fakenewsAnalisada['fake'] == '...') {
@@ -26,138 +27,94 @@ class _FakeNewsState extends State<FakeNews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  child: Image.asset(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
                     'assets/logo.png',
+                    height: 60,
+                    width: 60,
                   ),
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                child: Center(
-                  child: Text(
-                    'VERIFIQUE UMA NOTÍCIA',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(width: 15),
+                  Flexible(
+                    child: Text(
+                      'Verifique a veracidade de uma notícia',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
+              SizedBox(height: 20),
               TextField(
                 controller: _textController,
                 decoration: InputDecoration(
                   hintText: 'Insira uma notícia ou boato',
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
                   suffixIcon: IconButton(
                     onPressed: () {
                       _textController.clear();
                     },
-                    icon: const Icon(Icons.clear),
+                    icon: Icon(Icons.clear),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: MaterialButton(
-                  onPressed: () async {
-                    var inputNews = _textController.text;
-                    fakenewsAnalisada = await fakenewsAnalysis(inputNews);
-                    setState(() {});
-                  },
-                  color: Colors.black,
-                  child: const Text(
-                    'Verificar',
-                    style: TextStyle(color: Colors.white),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  var inputUrl = _textController.text;
+                  fakenewsAnalisada = await fakenewsAnalysis(inputUrl);
+                  setState(() {});
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red[400],
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                child: Text(
+                  'Verificar Notícia',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextField(
-                    enabled: false,
-                    minLines: 1,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      labelText: 'Notícia ou boato verdadeiro?',
-                      labelStyle: TextStyle(
-                          color: Colors.black), // Cor do texto do label
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.black), // Cor da borda
-                      ),
-                      suffixIcon: _buildIcon(fakenewsAnalisada),
-                    ),
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: Colors.black), // Cor do texto
-                    controller: TextEditingController(
-                        text: fakenewsAnalisada['fake'] == true
-                            ? "Isso é uma Notícia falsa (FakeNews)!"
-                            : fakenewsAnalisada['fake'] == "..."
-                                ? "..."
-                                  : fakenewsAnalisada['fake'] == null
-                                    ? "Erro na consulta!"
-                                      :"Não há indícios de ser uma notícia falsa (FakeNews)"),
-                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                    onChanged: (_) => setState(() {}),
-                  ),
-
-                  SizedBox(height: 20), // Espaço entre os TextField
-
-                  TextField(
-                    enabled: false,
-                    minLines: 1,
-                    maxLines:
-                        null, // Isso permite que o campo tenha várias linhas conforme necessário
-                    decoration: InputDecoration(
-                      labelText: 'Avaliação',
-                      labelStyle: TextStyle(
-                          color: Colors.black), // Cor do texto do label
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.black), // Cor da borda
-                      ),
-                    ),
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: Colors.black), // Cor do texto
-                    controller:
-                        TextEditingController(text: fakenewsAnalisada['description'] ?? "Erro na consulta. Tente novamente mais tarde"),
-                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                    onChanged: (_) => setState(() {}),
-                  ),
-
-                  SizedBox(height: 10), // Espaço entre os TextField
-                ],
+              SizedBox(height: 30),
+              InfoCard(
+                label: 'Notícia ou boato verdadeiro?',
+                value: fakenewsAnalisada['fake'] == true
+                    ? "Isso é uma Notícia falsa (FakeNews)!"
+                    : fakenewsAnalisada['fake'] == "..."
+                        ? "..."
+                        : fakenewsAnalisada['fake'] == null
+                            ? "Erro na consulta!"
+                            : "Não há indícios de ser uma notícia falsa (FakeNews)",
+                icon: _buildIcon(fakenewsAnalisada),
+              ),
+              InfoCard(
+                label: 'Avaliação',
+                value: fakenewsAnalisada['description'] ?? "Erro na consulta. Tente novamente mais tarde",
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 10.0,
-        height: 50.0,
-        color: Colors.black,
-        child: Container(
-          height: 50.0, // Ajuste para diminuir a altura da barra inferior
-        ),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(
-            top: 0.0), // Adicionar margem superior ao botão
+        padding: const EdgeInsets.only(top: 0.0),
         child: FloatingActionButton(
           shape: CircleBorder(),
           backgroundColor: Colors.red[900],
@@ -168,6 +125,15 @@ class _FakeNewsState extends State<FakeNews> {
                 (route) => false);
           },
           child: Icon(Icons.home, color: Colors.white),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 10.0,
+        height: 50.0,
+        color: Colors.black,
+        child: Container(
+          height: 50.0,
         ),
       ),
     );

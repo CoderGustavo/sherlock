@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sherlock/view/home_page.dart';
 import 'package:sherlock/controller/apiAccess.dart';
-import 'dart:convert';
+import 'package:sherlock/view/widgets/infoCard.dart';
 
 Widget _buildIcon(Map senhaAnalisada) {
   if (senhaAnalisada['level'] == '...') {
     return Icon(Icons.lock_clock);
-  } else if (senhaAnalisada['level'] == 0 ||
-      senhaAnalisada['level'] == 1 ||
-      senhaAnalisada['level'] == 2 ||
-      senhaAnalisada['level'] == 3 ||
-      senhaAnalisada['level'] == 4 ||
-      senhaAnalisada['level'] == 5 ||
-      senhaAnalisada['level'] == 6) {
-    return Icon(Icons.error_outlined, color: Colors.red);
+  } else if (senhaAnalisada['level'] >= 0 && senhaAnalisada['level'] <= 6) {
+    return Icon(Icons.error_outlined, color: Colors.red, size: 50);
   } else {
-    return Icon(Icons.tag_faces_outlined, color: Colors.green);
+    return Icon(Icons.tag_faces_outlined, color: Colors.green, size: 50);
   }
 }
 
@@ -33,132 +27,91 @@ class _PasswordState extends State<Password> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  child: Image.asset(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
                     'assets/logo.png',
+                    height: 60,
+                    width: 60,
                   ),
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                child: Center(
-                  child: Text(
-                    'VERIFIQUE A SEGURANÇA DA SENHA',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(width: 15),
+                  Flexible(
+                    child: Text(
+                      'Verifique a segurança da senha',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
+              SizedBox(height: 20),
               TextField(
                 controller: _textController,
+                textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   hintText: 'Digite uma senha',
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
                   suffixIcon: IconButton(
                     onPressed: () {
                       _textController.clear();
                     },
-                    icon: const Icon(Icons.clear),
+                    icon: Icon(Icons.clear),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: MaterialButton(
-                  onPressed: () async {
-                    var inputPassword = _textController.text;
-                    senhaAnalisada = await passwordAnalysis(inputPassword);
-                    setState(() {});
-                  },
-                  color: Colors.black,
-                  child: const Text(
-                    'Verificar',
-                    style: TextStyle(color: Colors.white),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  var inputUrl = _textController.text;
+                  senhaAnalisada = await passwordAnalysis(inputUrl);
+                  setState(() {});
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red[400],
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                child: Text(
+                  'Verificar Senha',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextField(
-                    enabled: false,
-                    minLines: 1,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      labelText: 'Nível',
-                      labelStyle: TextStyle(
-                          color: Colors.black), // Cor do texto do label
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.black), // Cor da borda
-                      ),
-                      suffixIcon: _buildIcon(senhaAnalisada),
-                    ),
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: Colors.black), // Cor do texto
-                    controller: TextEditingController(
-                        text: senhaAnalisada['level'] == null ? "Erro na consulta!" : senhaAnalisada['level'].toString()),
-                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                    onChanged: (_) => setState(() {}),
-                  ),
-
-                  SizedBox(height: 20), // Espaço entre os TextField
-
-                  TextField(
-                    enabled: false,
-                    minLines: 1,
-                    maxLines:
-                        null, // Isso permite que o campo tenha várias linhas conforme necessário
-                    decoration: InputDecoration(
-                      labelText: 'Descrição',
-                      labelStyle: TextStyle(
-                          color: Colors.black), // Cor do texto do label
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.black), // Cor da borda
-                      ),
-                    ),
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: Colors.black), // Cor do texto
-                    controller: TextEditingController(
-                        text: senhaAnalisada['description'] ?? "Erro na consulta. Tente novamente mais tarde"),
-                    // Use o onChanged para forçar a atualização do layout quando o texto for alterado
-                    onChanged: (_) => setState(() {}),
-                  ),
-
-                  SizedBox(height: 10), // Espaço entre os TextField
-                ],
+              SizedBox(height: 30),
+              InfoCard(
+                label: 'Nível',
+                value: senhaAnalisada['level'] == null
+                    ? "Erro na consulta!"
+                    : senhaAnalisada['level'].toString(),
+                icon: _buildIcon(senhaAnalisada),
+              ),
+              InfoCard(
+                label: 'Descrição',
+                value: senhaAnalisada['description'] ?? "Erro na consulta. Tente novamente mais tarde",
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 10.0,
-        height: 50.0,
-        color: Colors.black,
-        child: Container(
-          height: 50.0, // Ajuste para diminuir a altura da barra inferior
-        ),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(
-            top: 0.0), // Adicionar margem superior ao botão
+        padding: const EdgeInsets.only(top: 0.0),
         child: FloatingActionButton(
           shape: CircleBorder(),
           backgroundColor: Colors.red[900],
@@ -169,6 +122,15 @@ class _PasswordState extends State<Password> {
                 (route) => false);
           },
           child: Icon(Icons.home, color: Colors.white),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 10.0,
+        height: 50.0,
+        color: Colors.black,
+        child: Container(
+          height: 50.0,
         ),
       ),
     );

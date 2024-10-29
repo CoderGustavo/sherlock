@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                     width: 320,
                     child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Message()), (route) => false);
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MessageCheck()), (route) => false);
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(

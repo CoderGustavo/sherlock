@@ -28,6 +28,7 @@ class IntroPage1 extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold, // Define o texto em negrito
                     color: Colors.white,
+                    fontSize: 26
                   ),
                 ),
               ),

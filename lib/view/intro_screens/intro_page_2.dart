@@ -27,7 +27,9 @@ class IntroPage2 extends StatelessWidget {
                       TextAlign.center, // Centraliza o texto horizontalmente
                   style: TextStyle(
                       fontWeight: FontWeight.bold, // Define o texto em negrito
-                      color: Colors.white),
+                      color: Colors.white,
+                      fontSize: 26
+                  ),
                 ),
               ),
             ),
