@@ -100,7 +100,7 @@ class _PhishingState extends State<Phishing> {
                 label: 'Link confiável?',
                 value: (urlAnalisada['score'] != null &&
                         urlAnalisada['score'] is int &&
-                        urlAnalisada['score'] > 60)
+                        urlAnalisada['score'] < 40)
                     ? "Sim, é confiável"
                     : (urlAnalisada['score'] == '...'
                         ? "..."
