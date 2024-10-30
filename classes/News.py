@@ -16,7 +16,7 @@ class News():
                 try:
                     res = Reusable().useAI("gemini", f"""
 
-Noticia: Silvio Santos está morto
+Noticia: {news}
 
 Essa notícia pode ser fake news, ser verídica ou parcialmente verídica?
 Quero que pesquise sobre essa noticia. Caso não encontre nenhuma informação, não invente nada, não peça mais informações, não faça sugestões ou recomendações, não dê justificativas.

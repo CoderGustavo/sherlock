@@ -18,7 +18,7 @@ app = FastAPI(
 
 router = APIRouter(responses={404: {"description": "Not found"}})
 
-origins = ["http://localhost", "http://localhost:8000", "http://localhost:3000", "*"]
+origins = ["http://localhost", "http://localhost:8000", "http://localhost:3000", "https://sherlock-frontend-4cwo.onrender.com/", "*"]
 
 # Adicionando middlewares
 app.add_middleware(
