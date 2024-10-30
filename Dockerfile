@@ -4,16 +4,15 @@ FROM debian:latest AS build-env
 # Install dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback lib32stdc++6 python3 sed && \
+    curl unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback lib32stdc++6 python3 sed && \
     rm -rf /var/lib/apt/lists/*
 
-# Clone Flutter repository and set PATH
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+# Download and set up Flutter
+ENV FLUTTER_VERSION=3.13.3
+RUN curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz && \
+    tar -xf flutter_linux_${FLUTTER_VERSION}-stable.tar.xz -C /usr/local/ && \
+    rm flutter_linux_${FLUTTER_VERSION}-stable.tar.xz
 ENV PATH="${PATH}:/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin"
-
-# Set Flutter to master channel and upgrade
-RUN flutter channel master && \
-    flutter upgrade
 
 # Prepare and build the app
 WORKDIR /app
