@@ -6,6 +6,7 @@ from classes.Password import Password
 from classes.Message import Message
 from classes.Url import Url
 from classes.App import App
+from classes.News import News
 from pydantic import BaseModel
 
 app = FastAPI(
@@ -43,6 +44,9 @@ class SmsCheckRequest(BaseModel):
 class UrlCheckRequest(BaseModel):
     url: str
 
+class NewsCheckRequest(BaseModel):
+    news: str
+
 # Validate functions
 def validate_password(password: str):
     return Password().check_password(password)
@@ -55,6 +59,9 @@ def validate_sms(sms: str):
 
 def validate_url(url: str):
     return Url().check_phishing(url)
+
+def validate_news(url: str):
+    return News().check_news(url)
 
 # routes
 @router.post("/check_password", tags=["password"], summary="Checar se uma senha é forte")
@@ -83,6 +90,13 @@ async def check_sms(request: SmsCheckRequest):
 async def check_url(request: UrlCheckRequest):
     try:
         return validate_url(request.url)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/check_news", tags=["news"], summary="Checar se uma notícia pode ser falsa")
+async def check_url(request: NewsCheckRequest):
+    try:
+        return validate_news(request.news)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 

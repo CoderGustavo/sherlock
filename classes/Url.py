@@ -25,7 +25,7 @@ Abaixo está uma url:
 Este link acima pode ser um link de phishing? de golpe? ou algo que possar ser perigoso? como links encurtados, link de casa de aposta, link de sites replicados
 
 Você deve retornar apenas um JSON com as keys: score e reason
-sendo valid um valor de 0 a 100 com a chance de ser golpe
+sendo valid um valor de 0 a 100 com a chance de ser golpe, sendo 100 com certeza é golpe e 0 que é conhecido e seguro
 sendo reason uma mensagem explicando o motivo de ser ou não golpe de no maximo 100 caracteres
 
 Caso o link passado não for um link valido, coloque que é golpe e informe que não parece ser um link valido
