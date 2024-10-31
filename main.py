@@ -1,13 +1,15 @@
 from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from middlewares.call_middlewares import CallMiddlewares
 from classes.Password import Password
 from classes.Message import Message
 from classes.Url import Url
 from classes.App import App
 from classes.News import News
 from pydantic import BaseModel
+
+from middlewares.monitor_middleware import ResourceMonitorMiddleware
+from middlewares.logging_middleware import LoggingMiddleware
 
 app = FastAPI(
     docs_url="/api/documentation",
@@ -28,8 +30,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.add_middleware(BaseHTTPMiddleware, dispatch=CallMiddlewares)
+app.add_middleware(ResourceMonitorMiddleware)
+app.add_middleware(LoggingMiddleware)
+app.add_middleware(ResourceMonitorMiddleware)
 
 # Model requests
 class PasswordCheckRequest(BaseModel):

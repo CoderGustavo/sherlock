@@ -6,7 +6,7 @@ from random import randint
 #import g4f
 import json
 
-from middlewares.logger import logger
+from utilities.Logger import logger
 
 import google.generativeai as genai
 import os

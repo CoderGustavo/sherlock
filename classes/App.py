@@ -1,6 +1,6 @@
 from utilities.Reusable import Reusable
 
-from middlewares.logger import logger
+from utilities.Logger import logger
 
 class App():
     def __init__(self):
