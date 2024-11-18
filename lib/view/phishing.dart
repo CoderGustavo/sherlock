@@ -24,6 +24,8 @@ class _PhishingState extends State<Phishing> {
   final _textController = TextEditingController();
   Map<String, dynamic> urlAnalisada = {'score': '...', 'reason': '...'};
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,10 +80,17 @@ class _PhishingState extends State<Phishing> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: isLoading
+                    ? null
+                    : () async {
+                      setState(() {
+                          isLoading = true;
+                        });
                   var inputUrl = _textController.text;
                   urlAnalisada = await urlAnalysis(inputUrl);
-                  setState(() {});
+                  setState(() {
+                          isLoading = false;
+                        });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[400],
@@ -90,7 +99,16 @@ class _PhishingState extends State<Phishing> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: isLoading
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text(
                   'Verificar Link',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),

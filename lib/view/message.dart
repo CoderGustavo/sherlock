@@ -24,6 +24,8 @@ class _MessageCheckState extends State<MessageCheck> {
   final _textController = TextEditingController();
   Map<String, dynamic> mensagemAnalisada = {'score': '...', 'reason': '...'};
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,11 +80,18 @@ class _MessageCheckState extends State<MessageCheck> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  var inputMessage = _textController.text;
-                  mensagemAnalisada = await messageAnalysis(inputMessage);
-                  setState(() {});
-                },
+                onPressed: isLoading
+                    ? null
+                    : () async {
+                      setState(() {
+                          isLoading = true;
+                        });
+                        var inputMessage = _textController.text;
+                        mensagemAnalisada = await messageAnalysis(inputMessage);
+                        setState(() {
+                          isLoading = false;
+                        });
+                      },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[400],
                   padding: EdgeInsets.symmetric(vertical: 15),
@@ -90,14 +99,23 @@ class _MessageCheckState extends State<MessageCheck> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: isLoading
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text(
                   'Verificar Mensagem',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
               SizedBox(height: 30),
               InfoCard(
-                label: 'Nível de segurança:',
+                label: 'Possibilidade de ser golpe:',
                 value: mensagemAnalisada['score'] == null
                     ? "Erro na consulta!"
                     : mensagemAnalisada['score'].toString(),
@@ -105,7 +123,8 @@ class _MessageCheckState extends State<MessageCheck> {
               ),
               InfoCard(
                 label: 'Descrição:',
-                value: mensagemAnalisada['reason'] ?? "Erro na consulta. Tente novamente mais tarde",
+                value: mensagemAnalisada['reason'] ??
+                    "Erro na consulta. Tente novamente mais tarde",
               ),
             ],
           ),
@@ -137,5 +156,4 @@ class _MessageCheckState extends State<MessageCheck> {
       ),
     );
   }
-
 }

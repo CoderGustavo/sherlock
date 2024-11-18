@@ -29,6 +29,8 @@ class _CheckAppState extends State<CheckApp> {
     'app_store': '...',
   };
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,10 +86,17 @@ class _CheckAppState extends State<CheckApp> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: isLoading
+                    ? null
+                    : () async {
+                      setState(() {
+                          isLoading = true;
+                        });
                   var inputApp = _textController.text;
                   appAnalisado = await appAnalysis(inputApp);
-                  setState(() {});
+                  setState(() {
+                          isLoading = false;
+                        });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[400],
@@ -96,7 +105,16 @@ class _CheckAppState extends State<CheckApp> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: isLoading
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text(
                   'Verificar Aplicativo',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),

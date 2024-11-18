@@ -24,6 +24,8 @@ class _FakeNewsState extends State<FakeNews> {
   final _textController = TextEditingController();
   Map<String, dynamic> fakenewsAnalisada = {'fake': '...', 'description': '...'};
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,10 +77,17 @@ class _FakeNewsState extends State<FakeNews> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: isLoading
+                    ? null
+                    : () async {
+                      setState(() {
+                          isLoading = true;
+                        });
                   var inputUrl = _textController.text;
                   fakenewsAnalisada = await fakenewsAnalysis(inputUrl);
-                  setState(() {});
+                  setState(() {
+                          isLoading = false;
+                        });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[400],
@@ -87,7 +96,16 @@ class _FakeNewsState extends State<FakeNews> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: isLoading
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text(
                   'Verificar Notícia',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),

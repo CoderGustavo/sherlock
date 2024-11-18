@@ -24,6 +24,8 @@ class _PasswordState extends State<Password> {
   final _textController = TextEditingController();
   Map<String, dynamic> senhaAnalisada = {'level': '...', 'description': '...'};
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,11 +78,20 @@ class _PasswordState extends State<Password> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  var inputUrl = _textController.text;
-                  senhaAnalisada = await passwordAnalysis(inputUrl);
-                  setState(() {});
-                },
+                onPressed: isLoading
+                    ? null
+                    : () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+
+                        var inputUrl = _textController.text;
+                        senhaAnalisada = await passwordAnalysis(inputUrl);
+
+                        setState(() {
+                          isLoading = false;
+                        });
+                      },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[400],
                   padding: EdgeInsets.symmetric(vertical: 15),
@@ -88,7 +99,16 @@ class _PasswordState extends State<Password> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: isLoading
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text(
                   'Verificar Senha',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
