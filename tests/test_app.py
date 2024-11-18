@@ -14,8 +14,8 @@ def test_check_app_invalid():
     assert "app_store" in data
     assert data.get("score") >= 70
 
-def test_check_app_valid_ai():
-    response = client.post("/check_app", json={"app": "ChatGPT"})
+def test_check_app_valid_browser():
+    response = client.post("/check_app", json={"app": "Bing"})
     assert response.status_code == 200
     data = response.json()
     assert "score" in data
