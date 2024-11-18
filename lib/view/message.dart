@@ -83,7 +83,7 @@ class _MessageCheckState extends State<MessageCheck> {
                 onPressed: isLoading
                     ? null
                     : () async {
-                      setState(() {
+                        setState(() {
                           isLoading = true;
                         });
                         var inputMessage = _textController.text;
@@ -109,16 +109,18 @@ class _MessageCheckState extends State<MessageCheck> {
                         ),
                       )
                     : Text(
-                  'Verificar Mensagem',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
+                        'Verificar Mensagem',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
               ),
               SizedBox(height: 30),
               InfoCard(
                 label: 'Possibilidade de ser golpe:',
                 value: mensagemAnalisada['score'] == null
                     ? "Erro na consulta!"
-                    : mensagemAnalisada['score'].toString(),
+                    : mensagemAnalisada['score'] == "..."
+                        ? "..."
+                        : "${mensagemAnalisada['score']}%",
                 icon: _buildIcon(mensagemAnalisada),
               ),
               InfoCard(
