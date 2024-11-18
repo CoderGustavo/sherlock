@@ -7,7 +7,7 @@ Widget _buildIcon(Map appAnalisado) {
   if (appAnalisado['score'] == '...' || appAnalisado['score'] == null) {
     return Icon(Icons.app_registration_outlined, size: 30);
   } else if (appAnalisado['score'] <= 30) {
-    return Icon(Icons.check_circle_outline, color: Colors.green, size: 50);
+    return Icon(Icons.tag_faces_outlined, color: Colors.green, size: 50);
   } else {
     return Icon(Icons.error_outline, color: Colors.red, size: 50);
   }
@@ -106,7 +106,8 @@ class _CheckAppState extends State<CheckApp> {
                 label: 'Chance de ser malicioso:',
                 value: appAnalisado['score'] == null
                     ? "Erro na consulta!"
-                    : appAnalisado['score'].toString()
+                    : appAnalisado['score'].toString(),
+                icon: _buildIcon(appAnalisado)
               ),
               InfoCard(
                 label: 'Descrição:',

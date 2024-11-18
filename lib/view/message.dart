@@ -6,7 +6,7 @@ import 'package:sherlock/view/widgets/infoCard.dart';
 Widget _buildIcon(Map mensagemAnalisada) {
   if (mensagemAnalisada['score'] == '...') {
     return Icon(Icons.message);
-  } else if (mensagemAnalisada['score'] == 0) {
+  } else if (mensagemAnalisada['score'] > 60) {
     return Icon(Icons.error_outline, color: Colors.red, size: 50);
   } else {
     return Icon(Icons.tag_faces_outlined, color: Colors.green, size: 50);
