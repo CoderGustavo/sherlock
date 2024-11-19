@@ -20,7 +20,7 @@ def test_check_sms_golpe_2():
     assert data.get("score") >= 70
 
 def test_check_sms_sem_golpe_1():
-    response = client.post("/check_sms", json={"sms": "Oi mãe. Passo ai jantar mais tarde."})
+    response = client.post("/check_sms", json={"sms": "Oi mãe. tudo bem? Acho que hoje vai chover"})
     assert response.status_code == 200
     data = response.json()
     assert "score" in data
@@ -44,7 +44,7 @@ def test_check_sms_golpe_ingles_1():
     assert data.get("score") >= 70
 
 def test_check_sms_sem_golpe_ingles_1():
-    response = client.post("/check_sms", json={"sms": "Hi mon. I'll come over for dinner later."})
+    response = client.post("/check_sms", json={"sms": "Hi mon. how are you? Today will rain, I Think"})
     assert response.status_code == 200
     data = response.json()
     assert "score" in data

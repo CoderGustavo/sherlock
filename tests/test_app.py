@@ -14,8 +14,8 @@ def test_check_app_invalid():
     assert "app_store" in data
     assert data.get("score") >= 70
 
-def test_check_app_valid_browser():
-    response = client.post("/check_app", json={"app": "Bing"})
+def test_check_app_valid_wpp():
+    response = client.post("/check_app", json={"app": "WhatsApp"})
     assert response.status_code == 200
     data = response.json()
     assert "score" in data

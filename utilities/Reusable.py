@@ -78,7 +78,7 @@ class Reusable:
         """
         def generate_content():
             genai.configure(api_key=os.getenv("API_KEY"))
-            ai_model = genai.GenerativeModel("gemini-1.5-flash")
+            ai_model = genai.GenerativeModel(os.getenv("GEMINI_MODEL"))
             response = ai_model.generate_content(message)
             return json.loads(response.text.replace("```json", "").replace("```", ""))
 
