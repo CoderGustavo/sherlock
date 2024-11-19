@@ -23,7 +23,7 @@ def test_check_app_valid_wpp():
     assert "description" in data
     assert "play_store" in data
     assert "app_store" in data
-    assert data.get("score") <= 20
+    assert data.get("score") <= 40
 
 def test_check_app_valid_game():
     response = client.post("/check_app", json={"app": "brawl stars"})

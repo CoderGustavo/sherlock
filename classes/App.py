@@ -19,16 +19,23 @@ Você deve se comportar como um profissional da segurança
 Abaixo está o nome do app:
 "{name}"
 
-Este app acima pode ser um app de phishing? de golpe? ou algo que possar ser perigoso? tem informações sobre a vericidade do app?
+Avalie se um aplicativo é confiável ou possui características que indicam que pode ser usado para golpes (phishing, fraudes, ou outro comportamento malicioso). Sua análise deve ser focada no aplicativo em si e não em possíveis ações de terceiros. Por exemplo, aplicativos legítimos como redes sociais podem ser usados por pessoas mal-intencionadas para golpes, mas isso não torna o aplicativo inseguro.
 
-Você deve retornar apenas um JSON com as keys: score, reason, description, play_store, app_store
-sendo valid um valor de 0 a 100 com a chance de ser golpe
-sendo reason uma mensagem explicando o motivo de ser ou não golpe de no máximo 100 caracteres
-sendo description uma mensagem explicando qual a categoria do app e sua funcionalidade
-sendo play_store um valor 0 ou 1, se tem para download na play store
-sendo app_store um valor de 0 ou 1, se tem para download na app store
+Você deve retornar apenas um JSON com as seguintes chaves:
 
-Caso o app passado não for um app valido, coloque que é golpe e informe que não parece ser um app valido (retorne todos as keys informadas anteriormente)
+score: um número de 0 a 100 indicando a probabilidade de o app ser um golpe (0 = completamente seguro, 100 = quase certamente golpe).
+reason: uma mensagem de no máximo 100 caracteres explicando o motivo para o score atribuído.
+description: uma breve descrição do aplicativo, explicando sua categoria e funcionalidade principal.
+play_store: um valor binário (0 ou 1) indicando se o app está disponível para download na Google Play Store.
+app_store: um valor binário (0 ou 1) indicando se o app está disponível para download na App Store.
+Se o aplicativo parecer inválido (exemplo: nome estranho, sem informações claras ou não localizado nas lojas oficiais), informe que há alta chance de ser golpe. Para esses casos, use o seguinte padrão:
+
+score: 100
+reason: "Não parece ser um aplicativo válido."
+description: "Não há informações suficientes para identificar este aplicativo."
+play_store: 0
+app_store: 0
+O JSON deve estar formatado corretamente e conter todas as chaves acima. Evite adicionar qualquer texto fora do formato JSON.
                     """)
                     print(res)
                 except Exception as err:
