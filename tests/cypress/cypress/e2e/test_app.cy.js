@@ -1,9 +1,9 @@
-describe('Testes de API https://sherlock-f4n3.onrender.com/check_app', () => {
+describe('Testes de API https://sherlock-api-nh9j.onrender.com/check_app', () => {
 
   it('Deve verificar app inválido', () => {
     cy.request({
       method: 'POST',
-      url: 'https://sherlock-f4n3.onrender.com/check_app',
+      url: 'https://sherlock-api-nh9j.onrender.com/check_app',
       body: { app: "Sherlock" },
       failOnStatusCode: false
     }).then((response) => {
@@ -21,7 +21,7 @@ describe('Testes de API https://sherlock-f4n3.onrender.com/check_app', () => {
   it('Deve verificar app válido de IA', () => {
     cy.request({
       method: 'POST',
-      url: 'https://sherlock-f4n3.onrender.com/check_app',
+      url: 'https://sherlock-api-nh9j.onrender.com/check_app',
       body: { app: "ChatGPT" },
       failOnStatusCode: false
     }).then((response) => {
@@ -39,7 +39,7 @@ describe('Testes de API https://sherlock-f4n3.onrender.com/check_app', () => {
   it('Deve verificar app válido de jogo', () => {
     cy.request({
       method: 'POST',
-      url: 'https://sherlock-f4n3.onrender.com/check_app',
+      url: 'https://sherlock-api-nh9j.onrender.com/check_app',
       body: { app: "brawl stars" },
       failOnStatusCode: false
     }).then((response) => {

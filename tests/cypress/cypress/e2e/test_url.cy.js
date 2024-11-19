@@ -1,9 +1,9 @@
-describe('Testes de API - https://sherlock-f4n3.onrender.com/check_url', () => {
+describe('Testes de API - https://sherlock-api-nh9j.onrender.com/check_url', () => {
 
     it('Deve verificar URL encurtada', () => {
         cy.request({
             method: 'POST',
-            url: 'https://sherlock-f4n3.onrender.com/check_url',
+            url: 'https://sherlock-api-nh9j.onrender.com/check_url',
             body: { url: "http://tinyurl.com/blbw83" },
             failOnStatusCode: false
         }).then((response) => {
@@ -21,7 +21,7 @@ describe('Testes de API - https://sherlock-f4n3.onrender.com/check_url', () => {
     it('Deve verificar URL válida', () => {
         cy.request({
             method: 'POST',
-            url: 'https://sherlock-f4n3.onrender.com/check_url',
+            url: 'https://sherlock-api-nh9j.onrender.com/check_url',
             body: { url: "http://google.com.br" },
             failOnStatusCode: false
         }).then((response) => {

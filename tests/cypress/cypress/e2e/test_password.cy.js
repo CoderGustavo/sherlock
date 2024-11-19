@@ -1,8 +1,8 @@
-describe("Testes de API - https://sherlock-f4n3.onrender.com/check_password", () => {
+describe("Testes de API - https://sherlock-api-nh9j.onrender.com/check_password", () => {
     it('Deve verificar o nível da senha "senha"', () => {
         cy.request({
             method: "POST",
-            url: "https://sherlock-f4n3.onrender.com/check_password",
+            url: "https://sherlock-api-nh9j.onrender.com/check_password",
             body: { password: "senha" },
             failOnStatusCode: false,
         }).then((response) => {
@@ -20,7 +20,7 @@ describe("Testes de API - https://sherlock-f4n3.onrender.com/check_password", ()
     it('Deve verificar o nível da senha "minhasenha"', () => {
         cy.request({
             method: "POST",
-            url: "https://sherlock-f4n3.onrender.com/check_password",
+            url: "https://sherlock-api-nh9j.onrender.com/check_password",
             body: { password: "minhasenha" },
             failOnStatusCode: false,
         }).then((response) => {
@@ -38,7 +38,7 @@ describe("Testes de API - https://sherlock-f4n3.onrender.com/check_password", ()
     it('Deve verificar o nível da senha "minhasenha123"', () => {
         cy.request({
             method: "POST",
-            url: "https://sherlock-f4n3.onrender.com/check_password",
+            url: "https://sherlock-api-nh9j.onrender.com/check_password",
             body: { password: "minhasenha123" },
             failOnStatusCode: false,
         }).then((response) => {
@@ -56,7 +56,7 @@ describe("Testes de API - https://sherlock-f4n3.onrender.com/check_password", ()
     it('Deve verificar o nível da senha "Minhasenha123"', () => {
         cy.request({
             method: "POST",
-            url: "https://sherlock-f4n3.onrender.com/check_password",
+            url: "https://sherlock-api-nh9j.onrender.com/check_password",
             body: { password: "Minhasenha123" },
             failOnStatusCode: false,
         }).then((response) => {
@@ -74,7 +74,7 @@ describe("Testes de API - https://sherlock-f4n3.onrender.com/check_password", ()
     it('Deve verificar o nível da senha "Minhasenha123@"', () => {
         cy.request({
             method: "POST",
-            url: "https://sherlock-f4n3.onrender.com/check_password",
+            url: "https://sherlock-api-nh9j.onrender.com/check_password",
             body: { password: "Minhasenha123@" },
             failOnStatusCode: false,
         }).then((response) => {
