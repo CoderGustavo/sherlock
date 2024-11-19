@@ -1,60 +1,95 @@
+import concurrent.futures
+from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 import os
-from fastapi.responses import JSONResponse
 import base64
 from random import randint
-#import g4f
 import json
-
 from utilities.Logger import logger
-
 import google.generativeai as genai
-import os
 
-class Reusable():
-    # Reusable class
-    # methods of this class are:
-    # ['__init__', 'throwError', 'randomNumber', 'saveImage']
+class Reusable:
+    """
+    Reusable class containing utility methods:
+    - throw_error
+    - generate_random_number
+    - save_image
+    - use_ai
+    """
+    def throw_error(self, field_name: str, error: dict, raise_exception: bool = True):
+        """
+        Throws or returns an error response.
 
-    def __init__(self):
-        return None
+        Args:
+            field_name (str): Name of the field causing the error.
+            error (dict): Error dictionary with 'status_code' and 'msg'.
+            raise_exception (bool): Whether to raise an HTTP exception or return JSON response.
 
-    def throwError(self, fieldName, error, exception=True):
-        errorMessage = error.get('msg').replace('<<field>>', f"'{fieldName}'");
-        if exception:
-            raise HTTPException(status_code=error.get('status_code'), detail=errorMessage)
-        else:
-            return JSONResponse(content=errorMessage, status_code=error.get('status_code'))
-    def randomNumber(self):
+        Returns:
+            JSONResponse or None
+        """
+        error_message = error.get('msg').replace('<<field>>', f"'{field_name}'")
+        if raise_exception:
+            raise HTTPException(status_code=error.get('status_code'), detail=error_message)
+        return JSONResponse(content=error_message, status_code=error.get('status_code'))
+
+    def generate_random_number(self) -> int:
+        """Generates a random 4-digit number."""
         return randint(999, 9999)
-    def saveImage(self, fieldName, basePath, pathImage, base64Image):
-        deleteFile = True
-        dirCreate = f"{basePath}"
-        if not os.path.exists(dirCreate): os.mkdir(dirCreate)
-        pathFile = str(f"{pathImage}")
+
+    def save_image(self, field_name: str, base_path: str, path_image: str, base64_image: str):
+        """
+        Decodes and saves an image from a Base64 string.
+
+        Args:
+            field_name (str): Name of the field containing the image.
+            base_path (str): Directory where the image will be saved.
+            path_image (str): Path to the image file.
+            base64_image (str): Base64 encoded image data.
+
+        Raises:
+            HTTPException: If there's an error saving the image.
+        """
+        os.makedirs(base_path, exist_ok=True)
         try:
-            with open(pathFile, "wb") as fh:
-                decoded = base64.b64decode(base64Image, validate=True)
-                fh.write(decoded)
+            with open(path_image, "wb") as file:
+                decoded_image = base64.b64decode(base64_image, validate=True)
+                file.write(decoded_image)
         except Exception as e:
-            print(e)
-            os.remove(pathFile)
-            self.throwError(fieldName, {"status_code": 400, "msg": "Erro ao salvar a foto inserida."})
+            logger.error(f"Error saving image: {e}")
+            if os.path.exists(path_image):
+                os.remove(path_image)
+            self.throw_error(field_name, {"status_code": 400, "msg": "Error saving the provided image."})
 
-        return None
+    def use_ai(self, model: str, message: str, timeout_seconds: int = 10) -> dict:
+        """
+        Generates content using AI with a timeout.
 
-    def useAI(self, model, message):
-        # if (model != 'gemini'):
-        #     response = g4f.ChatCompletion.create(
-        #         model= model,
-        #         messages=message
-        #     )
-        #     logger.info(response)
-        #     return json.loads(response.replace("```json", "").replace("```", ""))
+        Args:
+            model (str): Model name to use.
+            message (str): Input message for the AI model.
+            timeout_seconds (int): Maximum time to wait for a response.
 
-        genai.configure(api_key=os.environ["API_KEY"])
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        response = model.generate_content(message)
+        Returns:
+            dict: Parsed response from the AI model.
 
-        return json.loads(response.text.replace("```json", "").replace("```", ""))
+        Raises:
+            HTTPException: If the operation times out or fails.
+        """
+        def generate_content():
+            genai.configure(api_key=os.getenv("API_KEY"))
+            ai_model = genai.GenerativeModel("gemini-1.5-flash")
+            response = ai_model.generate_content(message)
+            return json.loads(response.text.replace("```json", "").replace("```", ""))
 
+        try:
+            # Using ThreadPoolExecutor to enforce timeout
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(generate_content)
+                return future.result(timeout=timeout_seconds)
+        except concurrent.futures.TimeoutError:
+            logger.error("AI operation timed out.")
+            self.throw_error("AI Model", {"status_code": 408, "msg": "AI request timed out."})
+        except Exception as e:
+            logger.error(f"AI operation failed: {e}")
+            self.throw_error("AI Model", {"status_code": 500, "msg": "Error processing AI request."})

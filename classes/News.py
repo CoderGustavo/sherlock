@@ -14,7 +14,7 @@ class News():
             while response == None and timeout < 5:
                 res = None
                 try:
-                    res = Reusable().useAI("gemini", f"""
+                    res = Reusable().use_ai("gemini", f"""
 
 Noticia: {news}
 

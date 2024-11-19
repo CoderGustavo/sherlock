@@ -9,7 +9,7 @@ class Message():
             response = None
             timeout = 0
             while response == None and timeout < 5:
-                res = Reusable().useAI("gemini", f"""
+                res = Reusable().use_ai("gemini", f"""
 Você deve se comportar como um profissional da segurança
 
 Abaixo está uma mensagem de SMS:
