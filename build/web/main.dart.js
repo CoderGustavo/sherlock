@@ -24028,7 +24028,7 @@ if(a.charCodeAt(s)!==47)return q
 return b+3},
 amd(a){var s=0,r=A.Q(t.a),q,p,o,n,m,l
 var $async$amd=A.R(function(b,c){if(b===1)return A.N(c,r)
-while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.comcheck_password")
+while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.com/check_password")
 o=t.N
 n=A.as(["Content-Type","application/json"],o,o)
 m=B.aG
@@ -24042,7 +24042,7 @@ case 1:return A.O(q,r)}})
 return A.P($async$amd,r)},
 amb(a){var s=0,r=A.Q(t.a),q,p,o,n,m,l
 var $async$amb=A.R(function(b,c){if(b===1)return A.N(c,r)
-while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.comcheck_sms")
+while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.com/check_sms")
 o=t.N
 n=A.as(["Content-Type","application/json"],o,o)
 m=B.aG
@@ -24056,7 +24056,7 @@ case 1:return A.O(q,r)}})
 return A.P($async$amb,r)},
 alx(a){var s=0,r=A.Q(t.a),q,p,o,n,m,l
 var $async$alx=A.R(function(b,c){if(b===1)return A.N(c,r)
-while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.comcheck_app")
+while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.com/check_app")
 o=t.N
 n=A.as(["Content-Type","application/json"],o,o)
 m=B.aG
@@ -24070,7 +24070,7 @@ case 1:return A.O(q,r)}})
 return A.P($async$alx,r)},
 amp(a){var s=0,r=A.Q(t.a),q,p,o,n,m,l
 var $async$amp=A.R(function(b,c){if(b===1)return A.N(c,r)
-while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.comcheck_url")
+while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.com/check_url")
 o=t.N
 n=A.as(["Content-Type","application/json"],o,o)
 m=B.aG
@@ -24084,7 +24084,7 @@ case 1:return A.O(q,r)}})
 return A.P($async$amp,r)},
 alJ(a){var s=0,r=A.Q(t.a),q,p,o,n,m,l
 var $async$alJ=A.R(function(b,c){if(b===1)return A.N(c,r)
-while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.comcheck_news")
+while(true)switch(s){case 0:p=A.eI("https://sherlock-api-nh9j.onrender.com/check_news")
 o=t.N
 n=A.as(["Content-Type","application/json"],o,o)
 m=B.aG
