@@ -124,7 +124,9 @@ class _CheckAppState extends State<CheckApp> {
                 label: 'Chance de ser malicioso:',
                 value: appAnalisado['score'] == null
                     ? "Erro na consulta!"
-                    : appAnalisado['score'].toString(),
+                    : appAnalisado['score'] == "..."
+                        ? "..."
+                        : "${appAnalisado['score']}%",
                 icon: _buildIcon(appAnalisado)
               ),
               InfoCard(
