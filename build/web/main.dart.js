@@ -76763,7 +76763,7 @@ $S:16}
 A.nz.prototype={
 ae(){return new A.NQ(new A.me(B.dm,$.ap()),A.as(["fake","...","description","..."],t.N,t.z))}}
 A.NQ.prototype={
-J(a){var s,r,q=this,p=null,o="fake",n=t.D,m=A.fU(A.b([A.lt("assets/logo.png",p,60,60),A.bv(p,p,15),new A.jS(1,B.e0,A.c4("Verifique a veracidade de uma not\xedcia",p,p,p,A.bz(p,p,B.k,p,p,p,p,p,p,p,p,22,p,p,B.aU,p,p,!0,p,p,p,p,p,p,p,p),B.a3,p),p)],n),B.S,B.d3,B.V),l=A.bv(p,20,p),k=A.KS(q.d,A.wy(p,new A.eA(4,A.dL(15),new A.b_(B.k,1,B.t,-1)),p,p,p,p,p,p,!0,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,"Insira uma not\xedcia ou boato",p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,A.wl(A.bZ(B.e1,p,p),new A.aeO(q),p),p,p,p,p),p,B.b5),j=A.bv(p,20,p),i=q.f,h=i?p:new A.aeP(q),g=A.iL(p,p,B.cT,p,p,p,p,p,p,p,p,p,new A.ar(0,15,0,15),p,new A.bJ(A.dL(10),B.l),p,p,p,p)
+J(a){var s,r,q=this,p=null,o="fake",n=t.D,m=A.fU(A.b([A.lt("assets/logo.png",p,60,60),A.bv(p,p,15),new A.jS(1,B.e0,A.c4("Verifique a veracidade de uma not\xedcia (v\xe1lido at\xe9 2022)",p,p,p,A.bz(p,p,B.k,p,p,p,p,p,p,p,p,22,p,p,B.aU,p,p,!0,p,p,p,p,p,p,p,p),B.a3,p),p)],n),B.S,B.d3,B.V),l=A.bv(p,20,p),k=A.KS(q.d,A.wy(p,new A.eA(4,A.dL(15),new A.b_(B.k,1,B.t,-1)),p,p,p,p,p,p,!0,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,"Insira uma not\xedcia ou boato",p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,A.wl(A.bZ(B.e1,p,p),new A.aeO(q),p),p,p,p,p),p,B.b5),j=A.bv(p,20,p),i=q.f,h=i?p:new A.aeP(q),g=A.iL(p,p,B.cT,p,p,p,p,p,p,p,p,p,new A.ar(0,15,0,15),p,new A.bJ(A.dL(10),B.l),p,p,p,p)
 h=A.iK(i?A.bv(A.Fh(B.i,2),20,20):A.c4("Verificar Not\xedcia",p,p,p,A.bz(p,p,B.i,p,p,p,p,p,p,p,p,20,p,p,p,p,p,!0,p,p,p,p,p,p,p,p),p,p),h,g)
 g=A.bv(p,30,p)
 if(J.c(J.aE(q.e,o),!0))i="Isso \xe9 uma Not\xedcia falsa (FakeNews)!"

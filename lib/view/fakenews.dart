@@ -47,7 +47,7 @@ class _FakeNewsState extends State<FakeNews> {
                   SizedBox(width: 15),
                   Flexible(
                     child: Text(
-                      'Verifique a veracidade de uma notícia',
+                      'Verifique a veracidade de uma notícia (válido até 2022)',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 22,
